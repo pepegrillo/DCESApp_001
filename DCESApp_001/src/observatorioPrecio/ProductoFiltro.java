@@ -69,6 +69,7 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 	public ProductoFiltro(String idMunicipio, String selectedValue1, String selectedValue2, String selectedValue3){
 		
 		productofiltro = new ProductoFiltroCx(idMunicipio, selectedValue1, selectedValue2, selectedValue3);
+		
 		if (Display.getWidth() == 320) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_320.png")));

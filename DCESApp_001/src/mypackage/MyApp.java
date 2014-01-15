@@ -73,6 +73,11 @@ public class MyApp extends UiApplication
 				cpr.execute();
 				cpr.close();
 				
+				Statement cpf = sqliteDB.createStatement(statement.ProductoFiltrado());				
+				cpf.prepare();
+				cpf.execute();
+				cpf.close();
+				
 			sqliteDB.close();
 	     	
     	}catch (Exception e) {

@@ -96,7 +96,7 @@ public class FiltroCx {
 			// TODO: handle exception
 			errorMessage = "En este momento no se pueden \n mostrar datos " +
             		"intentelo de nuevo más tarde";
-		}	
+		}
 		
 	}
 	

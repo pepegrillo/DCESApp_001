@@ -2,7 +2,7 @@ package configurations;
 
 public class DbSql {
 
-	private String version = "0.6.1.db";
+	private String version = "0.6.4.db";
 	private String path;
 	
 	public String Path(){
@@ -35,6 +35,12 @@ public class DbSql {
 		String Presentacion = "CREATE TABLE IF NOT EXISTS PRESENTACION(idmunicipio TEXT, idpresentacion TEXT, nombrepresentacion TEXT)";
 		return Presentacion;
 	}
+	public String ProductoFiltrado(){
+		String ProductoFiltrado = "CREATE TABLE IF NOT EXISTS PRODUCTOFILTRADO(idmunicipio TEXT, idproductoback TEXT, idcomboestablecimiento TEXT, idcombopresentacion TEXT" +
+				", idproducto TEXT, producto TEXT, marca TEXT, presentacion TEXT, precioproducto TEXT" +
+				", preciopromocion TEXT, nombre TEXT, latitud TEXT, longitud TEXT, fechasondeo TEXT)";
+		return ProductoFiltrado;
+	}
 	
 	/*Inserts*/
 	public String InsertCategoriaProducto(String idCategoria, String nombreCategoria){
@@ -56,6 +62,15 @@ public class DbSql {
 	public String InsertPresentacion(String idMunicipio, String idPresentacion, String nombrePresentacion){
 		String InsertPresentacion = "INSERT INTO PRESENTACION(idmunicipio,idpresentacion,nombrepresentacion)VALUES('"+idMunicipio+"','"+idPresentacion+"','"+nombrePresentacion+"')";
 		return InsertPresentacion;
+	}
+	public String InsertProductoFiltrado(String idMunicipio, String idProductoBack, String selectedValue2, String selectedValue3, String idProducto, String producto, String marca,
+										String presentacion, String precioProducto, String precioProm, String nombre, String latitud, String longitud, String fechaSondeo){
+		String InsertProductoFiltrado = "INSERT INTO PRODUCTOFILTRADO(idmunicipio,idproductoback,idcomboestablecimiento,idcombopresentacion" +
+				",idproducto,producto,marca,presentacion,precioproducto,preciopromocion,nombre,latitud,longitud,fechasondeo)VALUES('"+
+				idMunicipio+"','"+idProductoBack+"','"+selectedValue2+"','"+selectedValue3+"','"+idProducto+"','"+producto+"'" +
+						",'"+marca+"','"+presentacion+"','"+precioProducto+"','"+precioProm+"','"+nombre+"','"+latitud+"'" +
+								",'"+longitud+"','"+fechaSondeo+"')";
+		return InsertProductoFiltrado;
 	}
 	
 	/*Selects*/
@@ -83,12 +98,19 @@ public class DbSql {
 		String SelectFiltro3 = "SELECT * FROM PRESENTACION WHERE idmunicipio='"+idMunicipio+"'";
 		return SelectFiltro3;
 	}
+	public String SelectProductoFiltrado(String idMunicipio, String idProdutoBack, String selectedValue2, String selectedValue3){
+		String SelectProductoFiltrado = "SELECT * FROM PRODUCTOFILTRADO WHERE idmunicipio='"+idMunicipio+"' AND " +
+										"idproductoback='"+idProdutoBack+"' AND " +
+										"idcomboestablecimiento='"+selectedValue2+"' AND " +
+										"idcombopresentacion='"+selectedValue3+"'";
+		return SelectProductoFiltrado;
+	}
 	
 	
 	/*Deletes*/
 	public String DeleteCategoriaProducto(){
-		String SelectCategoriaProducto = "DELETE FROM CATEGORIAPRODUCTO";
-		return SelectCategoriaProducto;
+		String DeleteCategoriaProducto = "DELETE FROM CATEGORIAPRODUCTO";
+		return DeleteCategoriaProducto;
 	}
 	public String DeleteProducto(String idPorCategoria){
 		String DeleteProducto = "DELETE FROM PRODUCTO WHERE idcategoria='"+idPorCategoria+"'";
@@ -105,5 +127,12 @@ public class DbSql {
 	public String DeletePresentacion(String idMunicipio){
 		String DeletePresentacion = "DELETE FROM PRESENTACION WHERE idmunicipio='"+idMunicipio+"'";
 		return DeletePresentacion;
+	}
+	public String DeleteProductoFiltrado(String idMunicipio, String idProdutoBack, String selectedValue2, String selectedValue3){
+		String DeleteProductoFiltrado = "DELETE FROM PRODUCTOFILTRADO WHERE idmunicipio='"+idMunicipio+"' AND " +
+									"idproductoback='"+idProdutoBack+"' AND " +
+									"idcomboestablecimiento='"+selectedValue2+"' AND " +
+									"idcombopresentacion='"+selectedValue3+"'";
+		return DeleteProductoFiltrado;
 	}
 }

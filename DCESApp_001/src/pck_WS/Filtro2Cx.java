@@ -110,7 +110,7 @@ public class Filtro2Cx {
 					
 				}else{					
 					cargarDatos(idMunicipio);
-					//Dialog.alert("no tengo inter "+incremento);
+					errorMessage = "No se encontrarón datos disponibles.";
 				}
 			}
 		}catch (Exception e) {
@@ -179,8 +179,8 @@ public class Filtro2Cx {
 							in.close(); 
 							sqliteDB1.close();
 		            	}catch (Exception e){
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo de nuevo más tarde";
+		            		errorMessage = "No hay datos disponible para la búsqueda realizada, " +
+				            		"intentelo más tarde";
 		 	     		}
 		            
 	            	}
