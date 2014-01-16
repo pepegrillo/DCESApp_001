@@ -2,7 +2,7 @@ package configurations;
 
 public class DbSql {
 
-	private String version = "0.6.4.db";
+	private String version = "0.7.0.db";
 	private String path;
 	
 	public String Path(){
@@ -41,6 +41,10 @@ public class DbSql {
 				", preciopromocion TEXT, nombre TEXT, latitud TEXT, longitud TEXT, fechasondeo TEXT)";
 		return ProductoFiltrado;
 	}
+	public String Busqueda(){
+		String Busqueda = "CREATE TABLE IF NOT EXISTS BUSQUEDA(idcategoria TEXT, palabrafiltro TEXT, idproducto TEXT, nombreproducto TEXT)";
+		return Busqueda;
+	}
 	
 	/*Inserts*/
 	public String InsertCategoriaProducto(String idCategoria, String nombreCategoria){
@@ -72,6 +76,11 @@ public class DbSql {
 								",'"+longitud+"','"+fechaSondeo+"')";
 		return InsertProductoFiltrado;
 	}
+	public String InsertBusqueda(String idCategoria, String palabraFiltro, String idProducto, String nombreproducto){
+		String InsertBusqueda = "INSERT INTO BUSQUEDA(idcategoria,palabrafiltro,idproducto,nombreproducto)VALUES('"+idCategoria+"','"+palabraFiltro+"','"+idProducto+"','"+nombreproducto+"')";
+		return InsertBusqueda;
+	}
+	
 	
 	/*Selects*/
 	public String SelectCategoriaProducto(){
@@ -105,6 +114,10 @@ public class DbSql {
 										"idcombopresentacion='"+selectedValue3+"'";
 		return SelectProductoFiltrado;
 	}
+	public String SelectBusqueda(String idCategoria, String palabraFiltro){
+		String SelectBusqueda = "SELECT * FROM BUSQUEDA WHERE idcategoria='"+idCategoria+"' AND nombreproducto LIKE '%"+palabraFiltro+"%'";
+		return SelectBusqueda;
+	}
 	
 	
 	/*Deletes*/
@@ -134,5 +147,9 @@ public class DbSql {
 									"idcomboestablecimiento='"+selectedValue2+"' AND " +
 									"idcombopresentacion='"+selectedValue3+"'";
 		return DeleteProductoFiltrado;
+	}
+	public String DeleteBusqueda(String idCategoria){
+		String DeleteBusqueda = "DELETE FROM BUSQUEDA WHERE idcategoria='"+idCategoria+"'";
+		return DeleteBusqueda;
 	}
 }

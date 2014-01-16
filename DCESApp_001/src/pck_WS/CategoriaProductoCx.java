@@ -41,9 +41,13 @@ public class CategoriaProductoCx {
 	public Vector IdCategoria   = new Vector();
 	public Vector Categoria     = new Vector();
 	
+	public String errorCode    = new String();
+	public String errorMessage = new String();
+	
 	DbSql path = new DbSql();
 	DbSql statement = new DbSql();
 	private int incremento;
+	
 	CategoriaProductoSG categoria = new CategoriaProductoSG();
 	
 	public CategoriaProductoCx(){
@@ -73,6 +77,8 @@ public class CategoriaProductoCx {
 					descargarDatos();
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
+					errorMessage = "En este momento no se pueden \n mostrar datos " +
+		            		"intentelo más tarde";
 					//onClose();
 				}
 			//Sí hay datos
@@ -88,6 +94,8 @@ public class CategoriaProductoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
+			errorMessage = "En este momento no se pueden \n mostrar datos " +
+            		"intentelo más tarde";
 		}
 		
 		
@@ -119,32 +127,43 @@ public class CategoriaProductoCx {
 	            String resultado1  = objeto1.getString("response");
 	            	            	            
 	            JSONObject objeto2 =  new  JSONObject ( resultado1 );
+	            errorCode    = objeto2.getString("errorCode");
+	            errorMessage = objeto2.getString("errorMessage");
 	            
-	            JSONArray jsonMainArr = objeto2.getJSONArray("msg");
-			
-            	for (int i = 0; i < jsonMainArr.length(); i++) {
-	            	
-	            	JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
-	            	
-	            	/*IdCategoria.addElement(childJSONObject.get("idCategoria"));
-	            	Categoria.addElement(childJSONObject.get("categoria"));*/
-	            	try{
-		            	URI uri1 = URI.create(path.Path());
-						Database sqliteDB1 = DatabaseFactory.open(uri1);
-						Statement in = sqliteDB1.createStatement(statement.InsertCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
-						//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
-						in.prepare();
-						in.execute();
-						in.close(); 
-						sqliteDB1.close();
-	            	}catch (Exception e){
-	 	     			//Dialog.alert("error elements habits "+e.getMessage());
-	 	     		}
+	            if(errorCode.equals("0")){
 	            
-            	}
+		            JSONArray jsonMainArr = objeto2.getJSONArray("msg");
+				
+	            	for (int i = 0; i < jsonMainArr.length(); i++) {
+		            	
+		            	JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
+		            	
+		            	/*IdCategoria.addElement(childJSONObject.get("idCategoria"));
+		            	Categoria.addElement(childJSONObject.get("categoria"));*/
+		            	try{
+			            	URI uri1 = URI.create(path.Path());
+							Database sqliteDB1 = DatabaseFactory.open(uri1);
+							Statement in = sqliteDB1.createStatement(statement.InsertCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
+							//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
+							in.prepare();
+							in.execute();
+							in.close(); 
+							sqliteDB1.close();
+		            	}catch (Exception e){
+		 	     			//Dialog.alert("error elements habits "+e.getMessage());
+		 	     		}
+		            
+	            	}
+	            	
+	            	cargarDatos();
+	            	
+	            }else if (errorCode.equals("1")){
+		            errorMessage = "En este momento no se pueden \n mostrar datos " +
+		            		"intentelo más tarde";
+	            	
+	            }
 	        }
 	            
-	        cargarDatos();
 	        
 	        }catch (Exception e) {
 				// TODO: handle exception
@@ -172,8 +191,7 @@ public class CategoriaProductoCx {
 					}
 			}
 		
-			categoria.setIdCategoria(IdCategoria);
-			categoria.setCategoria(Categoria);    
+			   
 		}
 	
 		public void cargarDatos(){
@@ -195,8 +213,16 @@ public class CategoriaProductoCx {
 	                       selectR.close();
 	                       cursorR.close();
 	                       sqliteDB.close();
+	                       errorCode = "0";
 			}catch(Exception e){
 				Dialog.alert(e.getMessage());
+				errorMessage = "En este momento no se pueden \n mostrar datos " +
+	            		"intentelo más tarde";
+			}finally{
+				categoria.setIdCategoria(IdCategoria);
+				categoria.setCategoria(Categoria); 
+				categoria.seterrorCode(errorCode);
+				categoria.seterrorMessage(errorMessage);
 			}
 		}
 		

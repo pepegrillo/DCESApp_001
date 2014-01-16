@@ -7,6 +7,9 @@ public class CategoriaProductoSG {
 	Vector idCategoria   = new Vector();
 	Vector categoria     = new Vector();
 	
+	String errorCode 	= new String();
+	String errorMessage = new String();
+	
 	public CategoriaProductoSG(){
 		
 	}
@@ -16,6 +19,8 @@ public class CategoriaProductoSG {
 		super();
 		this.idCategoria = idCategoria;
 		this.categoria = categoria;
+		this.errorCode    = errorCode;
+		this.errorMessage = errorMessage;
 		
 	}
 	
@@ -30,6 +35,19 @@ public class CategoriaProductoSG {
 	}
 	public void setCategoria(Vector categoria) {
 		this.categoria = categoria;
+	}
+	
+	public String geterrorCode() {
+		return errorCode;
+	}
+	public void seterrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String geterrorMessage() {
+		return errorMessage;
+	}
+	public void seterrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 }

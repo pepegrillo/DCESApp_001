@@ -78,6 +78,11 @@ public class MyApp extends UiApplication
 				cpf.execute();
 				cpf.close();
 				
+				Statement cb = sqliteDB.createStatement(statement.Busqueda());				
+				cb.prepare();
+				cb.execute();
+				cb.close();
+				
 			sqliteDB.close();
 	     	
     	}catch (Exception e) {

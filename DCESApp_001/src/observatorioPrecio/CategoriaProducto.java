@@ -29,6 +29,7 @@ import com.samples.toolkit.ui.component.ListStyleButtonField;
 import configurations.DbSql;
 import configurations.Strings;
 import estilos.Estilos;
+import estilos.Estilos.ORichTextField;
 
 public class CategoriaProducto extends Estilos implements FieldChangeListener {
 	
@@ -173,54 +174,62 @@ public class CategoriaProducto extends Estilos implements FieldChangeListener {
 			//Lista Categoria
 			VerticalField allContentListaCategoria = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
 			
-			for (int i = 0; i < categoria.IdCategoria.size(); i++){
-
-				
-				contentListCategoria = new HorizontalField(seisientos, cientodiez, HorizontalField.FIELD_HCENTER);
-				//contentListCategoria.setBackground((Background) vColores.elementAt(i));
-				
-				contentListCategoria.setBorder(BorderFactory.createBitmapBorder(new XYEdges(0,8,0,8), Bitmap.getBitmapResource("bgList"+i+""+apend+".png")));
-				contentListCategoria.setMargin(quince,0,quince,quince);
-				contentListCategoria.setPadding(0,0,0,0);
-				//contentListCategoria.setBorder(BorderFactory.createRoundedBorder(new XYEdges(5,5,5,5)));
-				
-				try{
-					logoList = Bitmap.getBitmapResource("imgCat_"+ i +""+apend+".png");
-					
-			        logoListaf = new BitmapField(logoList);
-			        //logoListaf.setMargin(7,7,7,7);
-			        logoListaf.setPadding(topImageLogo, rightImageLogo, bottomImageLogo, leftImageLogo);	        
-			        contentListCategoria.add(logoListaf);
-				}catch (Exception e) {
-					// TODO: handle exception
-					logoList = Bitmap.getBitmapResource("imgCat_Default.png");
-			        logoListaf = new BitmapField(logoList);
-			        //logoListaf.setMargin(7,7,7,7);
-			        logoListaf.setPadding(7, 5, 3, 5);	        
-			        contentListCategoria.add(logoListaf);
-				}  
-		        vLista.addElement(new ListStyleButtonField(null,categoria.Categoria.elementAt(i).toString().toUpperCase() , arrow,DrawStyle.ELLIPSIS){
-		            public int getPreferredWidth(){return Display.getWidth()-cientocincuenta;}
-		            public int getPreferredHeight(){return noventa;}
-		            public void layout( int maxWidth, int maxHeight )
-		            {
-		                super.layout(getPreferredWidth(),getPreferredHeight());
-		                setExtent(getPreferredWidth(), getPreferredHeight());
-		            }
-		            public void paint(Graphics g)
-					{      
-						g.setColor(0xffffff);
-						super.paint(g);
-					}
-	            });
-	            
-	    	    ((Field) vLista.elementAt(i)).setChangeListener(this);
-	    	    ((Field) vLista.elementAt(i)).setMargin(10,0,0,0);
-	    	    
-	    	    contentListCategoria.add(((Field) vLista.elementAt(i)));
-	    	    allContentListaCategoria.add(contentListCategoria);
-			}
+			if (categoria.errorCode.equals("0")){
 			
+				for (int i = 0; i < categoria.IdCategoria.size(); i++){
+	
+					
+					contentListCategoria = new HorizontalField(seisientos, cientodiez, HorizontalField.FIELD_HCENTER);
+					//contentListCategoria.setBackground((Background) vColores.elementAt(i));
+					
+					contentListCategoria.setBorder(BorderFactory.createBitmapBorder(new XYEdges(0,8,0,8), Bitmap.getBitmapResource("bgList"+i+""+apend+".png")));
+					contentListCategoria.setMargin(quince,0,quince,quince);
+					contentListCategoria.setPadding(0,0,0,0);
+					//contentListCategoria.setBorder(BorderFactory.createRoundedBorder(new XYEdges(5,5,5,5)));
+					
+					try{
+						logoList = Bitmap.getBitmapResource("imgCat_"+ i +""+apend+".png");
+						
+				        logoListaf = new BitmapField(logoList);
+				        //logoListaf.setMargin(7,7,7,7);
+				        logoListaf.setPadding(topImageLogo, rightImageLogo, bottomImageLogo, leftImageLogo);	        
+				        contentListCategoria.add(logoListaf);
+					}catch (Exception e) {
+						// TODO: handle exception
+						logoList = Bitmap.getBitmapResource("imgCat_Default.png");
+				        logoListaf = new BitmapField(logoList);
+				        //logoListaf.setMargin(7,7,7,7);
+				        logoListaf.setPadding(7, 5, 3, 5);	        
+				        contentListCategoria.add(logoListaf);
+					}  
+			        vLista.addElement(new ListStyleButtonField(null,categoria.Categoria.elementAt(i).toString().toUpperCase() , arrow,DrawStyle.ELLIPSIS){
+			            public int getPreferredWidth(){return Display.getWidth()-cientocincuenta;}
+			            public int getPreferredHeight(){return noventa;}
+			            public void layout( int maxWidth, int maxHeight )
+			            {
+			                super.layout(getPreferredWidth(),getPreferredHeight());
+			                setExtent(getPreferredWidth(), getPreferredHeight());
+			            }
+			            public void paint(Graphics g)
+						{      
+							g.setColor(0xffffff);
+							super.paint(g);
+						}
+		            });
+		            
+		    	    ((Field) vLista.elementAt(i)).setChangeListener(this);
+		    	    ((Field) vLista.elementAt(i)).setMargin(10,0,0,0);
+		    	    
+		    	    contentListCategoria.add(((Field) vLista.elementAt(i)));
+		    	    allContentListaCategoria.add(contentListCategoria);
+				}
+				
+			}else{
+				ORichTextField errorM = new ORichTextField(categoria.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
+				errorM.setFont(fTitle);
+				//errorM.setMargin(20, 0, 5, 20);
+				allContentListaCategoria.add(errorM);
+			}
 			//Descargar datos despues de consumidos
 			//descargarDatos();
 	        
