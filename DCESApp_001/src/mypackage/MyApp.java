@@ -53,35 +53,80 @@ public class MyApp extends UiApplication
 				cp.execute();
 				cp.close();
 				
+				Statement cpt = sqliteDB.createStatement(statement.TemporadaCategoriaProducto());				
+				cpt.prepare();
+				cpt.execute();
+				cpt.close();
+				
 				Statement p = sqliteDB.createStatement(statement.Producto());				
 				p.prepare();
 				p.execute();
 				p.close();
+				
+				Statement pt = sqliteDB.createStatement(statement.TemporadaProducto());				
+				pt.prepare();
+				pt.execute();
+				pt.close();
 				
 				Statement cm = sqliteDB.createStatement(statement.Municipio());				
 				cm.prepare();
 				cm.execute();
 				cm.close();
 				
+				Statement cmt = sqliteDB.createStatement(statement.TemporadaMunicipio());				
+				cmt.prepare();
+				cmt.execute();
+				cmt.close();
+				
 				Statement ce = sqliteDB.createStatement(statement.Establecimiento());				
 				ce.prepare();
 				ce.execute();
 				ce.close();
+				
+				Statement cet = sqliteDB.createStatement(statement.TemporadaEstablecimiento());				
+				cet.prepare();
+				cet.execute();
+				cet.close();
 				
 				Statement cpr = sqliteDB.createStatement(statement.Presentacion());				
 				cpr.prepare();
 				cpr.execute();
 				cpr.close();
 				
+				Statement cprt = sqliteDB.createStatement(statement.TemporadaPresentacion());				
+				cprt.prepare();
+				cprt.execute();
+				cprt.close();
+				
 				Statement cpf = sqliteDB.createStatement(statement.ProductoFiltrado());				
 				cpf.prepare();
 				cpf.execute();
 				cpf.close();
 				
+				Statement cpft = sqliteDB.createStatement(statement.TemporadaProductoFiltrado());				
+				cpft.prepare();
+				cpft.execute();
+				cpft.close();
+				
 				Statement cb = sqliteDB.createStatement(statement.Busqueda());				
 				cb.prepare();
 				cb.execute();
 				cb.close();
+				
+				Statement cbt = sqliteDB.createStatement(statement.TemporadaBusqueda());				
+				cbt.prepare();
+				cbt.execute();
+				cbt.close();
+				
+				Statement cf = sqliteDB.createStatement(statement.Favorito());				
+				cf.prepare();
+				cf.execute();
+				cf.close();
+				
+				Statement cftu = sqliteDB.createStatement(statement.TemporalUser());				
+				cftu.prepare();
+				cftu.execute();
+				cftu.close();
 				
 			sqliteDB.close();
 	     	

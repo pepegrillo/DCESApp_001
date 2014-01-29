@@ -1,6 +1,5 @@
-package observatorioPrecio;
+package temporadaProducto;
 
-import pck_WS.Filtro2Cx;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
@@ -16,15 +15,15 @@ import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
+import pck_WS.TemporadaFiltro2Cx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
 import configurations.Strings;
 import estilos.Estilos;
 import estilos.FullWidthChoiceField;
-import estilos.Estilos.ORichTextField;
 
-public class FiltroBusqueda2 extends Estilos {
+public class FiltroBusqueda2T extends Estilos {
 
 	int tFuente;
 	Font fLite;
@@ -37,7 +36,7 @@ public class FiltroBusqueda2 extends Estilos {
 	Bitmap btnConsultarFiltro;
 	Bitmap btnConsultarFiltro1;
 	
-	Filtro2Cx filtro; 
+	TemporadaFiltro2Cx filtro; 
 	
 	int selectedValue1, selectedValue2;
 	String choiceIdEstablecimiento, choiceIdPresentacion, str;
@@ -51,9 +50,9 @@ public class FiltroBusqueda2 extends Estilos {
 	
 	int leftHr = 25;
 	
-	public FiltroBusqueda2(String idCategoria, final String idProductoMain, final String idMunicipio, final String NombreArticulo) {
+	public FiltroBusqueda2T(String idCategoria, final String idProductoMain, final String idMunicipio, final String NombreArticulo) {
 		
-		filtro = new Filtro2Cx(idMunicipio);
+		filtro = new TemporadaFiltro2Cx(idMunicipio);
 		if (Display.getWidth() == 320) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_320.png")));
@@ -237,7 +236,7 @@ public class FiltroBusqueda2 extends Estilos {
 	    					selectedValue2 = presentacionOcf.getSelectedIndex();
 	    					choiceIdPresentacion = filtro.IdArticulo.elementAt(selectedValue2).toString();
 	    					
-	    					UiApplication.getUiApplication().pushScreen(new ProductoFiltro(idMunicipio, idProductoMain, choiceIdEstablecimiento, choiceIdPresentacion, NombreArticulo));
+	    					UiApplication.getUiApplication().pushScreen(new ProductoFiltroT(idMunicipio, idProductoMain, choiceIdEstablecimiento, choiceIdPresentacion, NombreArticulo));
 	    				
 	    				}
 	    				/*selectedValue2 = presentacionOcf.getSelectedIndex();    				

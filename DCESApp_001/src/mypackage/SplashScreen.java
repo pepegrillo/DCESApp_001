@@ -1,6 +1,5 @@
 package mypackage;
 
-import configurations.DbSql;
 import net.rim.device.api.database.Cursor;
 import net.rim.device.api.database.Database;
 import net.rim.device.api.database.DatabaseFactory;
@@ -11,14 +10,18 @@ import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.BitmapField;
-import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
+import configurations.DbSql;
 import estilos.Utils;
 
 public class SplashScreen extends MainScreen {
 	BitmapField bmp;
 	DbSql path = new DbSql();
+	DbSql statement = new DbSql();
+	
+	String idMiembro;
+	int incremento = 0;
 	
     public SplashScreen() {
     	
@@ -44,27 +47,33 @@ public class SplashScreen extends MainScreen {
         }finally{
         	
         	try{  
-    			/*URI uri = URI.create(path.Path());
-    			Database sqliteDB = DatabaseFactory.create(uri); 
+    			URI uri = URI.create(path.Path());
+    			Database sqliteDB = DatabaseFactory.open(uri); 
     			
-    			Statement slc = sqliteDB.createStatement("CREATE TABLE IF NOT EXISTS USER(id_user TEXT, email TEXT, pw TEXT)");
+    			Statement slc = sqliteDB.createStatement(statement.SelectUserValidar());
                 slc.prepare();
-                Cursor sc = slc.getCursor();               	
-                Row rc;                
-                int j = 0;
+                Cursor sc = slc.getCursor();
+                Row rc;
+                //int j = 0;
                 while(sc.next()){
-                    rc = sc.getRow(); 
-                    idUser 	= rc.getString(0);				
-    				j++;
+                    rc = sc.getRow();
+                    idMiembro 	= rc.getString(0);
+    				incremento++;
                 }
                 slc.close();
                 sc.close();
-    			sqliteDB.close();*/
+    			sqliteDB.close();
             }catch (Exception e){
             	//Dialog.alert("error al entrar a la base "+e.getMessage());
             }
         	
-        	MyApp.homeScreen = new MyScreen();
+        	if(incremento != 0){
+        		MyApp.homeScreen = new MenuMain(1);
+        		//MyApp.homeScreen = new ProductoFiltro("1","1","2","1","DIRECTO SPLASH SCREEN");
+        	}else{
+        		MyApp.homeScreen = new MyScreen();
+        	}
+        	
         	//MyApp.homeScreen = new Ajustes();
         	  
             UiApplication.getUiApplication().invokeLater(new Runnable() {			        	

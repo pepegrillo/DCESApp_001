@@ -11,16 +11,21 @@ import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.XYEdges;
 import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.BitmapField;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.EmailAddressEditField;
 import net.rim.device.api.ui.component.PasswordEditField;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.component.Status;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
+import pck_WS.LoginCx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
+import configurations.ConexionController;
+import configurations.Encode;
 import configurations.Strings;
 import estilos.Estilos;
 
@@ -30,6 +35,9 @@ import estilos.Estilos;
  */
 public final class MyScreen extends Estilos
 {
+	
+	String tipoConexion = ConexionController.getConnectionString()[0];
+	String getTipo = ConexionController.getConnectionString()[1];
 	
 	int tFuente;
 	Font fLite;
@@ -53,6 +61,9 @@ public final class MyScreen extends Estilos
     /**
      * Creates a new MyScreen object
      */
+	
+	LoginCx iniciosesion;
+	
     public MyScreen()
     {        
         // Set the displayed title of the screen       
@@ -135,7 +146,7 @@ public final class MyScreen extends Estilos
 		 	emailCrt.setMargin(veinte, veinte, cinco, cincuenta);
 		 	allContentInicio.add(emailCrt);
 			
-			txtCorreo = new EmailAddressEditField("", "", 200,BasicEditField.JUMP_FOCUS_AT_END){
+			txtCorreo = new EmailAddressEditField("", "blackberry6@blackberry.com", 200,BasicEditField.JUMP_FOCUS_AT_END){
 				public void paint(Graphics g){      
 	                g.setColor(0xFFF);
 	                super.paint(g);
@@ -150,7 +161,7 @@ public final class MyScreen extends Estilos
 	        pwCrt.setMargin(veinte, veinte, cinco, cincuenta);
 	        allContentInicio.add(pwCrt);
 			
-			txtPass = new PasswordEditField("", "", 200,BasicEditField.JUMP_FOCUS_AT_END){
+			txtPass = new PasswordEditField("", "blackberry6", 200,BasicEditField.JUMP_FOCUS_AT_END){
 				public void paint(Graphics g){      
 	                g.setColor(0xFFF);
 	                super.paint(g);
@@ -169,7 +180,23 @@ public final class MyScreen extends Estilos
             BitmapButtonField btnInicioSesionUser = new BitmapButtonField(btnInicioSesion,btnInicioSesion1,Field.FIELD_HCENTER);
             btnInicioSesionUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new MenuMain());
+    				if(getTipo.equals("wifi") || getTipo.equals("BIBS")){
+	    				//if(iniciosesion.errorCode.equals("0")){
+		    				Encode sha = new Encode();
+		    	            String pw = sha.SHA1(txtPass.getText().toString());
+		    				//Dialog.alert(pw+txtPass.getText());
+		    				iniciosesion = new LoginCx(txtCorreo.getText().toString(), pw);
+		    				if(iniciosesion.errorCode.equals("0")){
+		    					UiApplication.getUiApplication().pushScreen(new MenuMain(1));
+		    				}else{
+		    					Dialog.alert(iniciosesion.errorMessage);
+		    				}
+	    				/*}else{
+	    					Dialog.alert(iniciosesion.errorMessage);
+	    				}*/
+    				}else{
+    					Status.show(Strings.CONEXION_DESCONECTED);
+    				}
     			}
             });
             btnInicioSesionUser.setMargin(veinte, diez, 0, 0);
@@ -194,7 +221,7 @@ public final class MyScreen extends Estilos
             BitmapButtonField btnSaltarUser = new BitmapButtonField(btnSaltar,btnSaltar1,Field.FIELD_HCENTER);
             btnSaltarUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new MenuMain());
+    				UiApplication.getUiApplication().pushScreen(new MenuMain(3));
     			}
             });
             btnSaltarUser.setMargin(diez, 0, 0, 0);

@@ -1,22 +1,21 @@
 package mypackage;
 
 import listaProductos.ListaProductos;
-import listaProductos.ProductosCotizar;
-import observatorioPrecio.CategoriaProducto;
-import observatorioPrecio.CategoriaProductoSearcherDemo;
-import observatorioPrecio.CategoriaProductoCopiaWS;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
+import observatorioPrecio.CategoriaProducto;
+import pck_WS.FavoritoPx;
+import temporadaProducto.CategoriaProductoT;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
 import configurations.Ajustes;
-
 import estilos.Estilos;
 import favoritos.FavoritoProducto;
 
@@ -38,7 +37,17 @@ public class MenuMain extends Estilos {
 	int cuatrocientos 	= 434;
 	int diecisiete 		= 17;
 	int veintitres 		= 23;
-	public MenuMain() {
+	
+	int cerrarscreen = 0;
+	
+	FavoritoPx favoritos = new FavoritoPx();
+	
+	public MenuMain(int cerrarScreen) {
+		
+		cerrarscreen = cerrarScreen;
+		
+		
+		
 		if (Display.getWidth() == 320) {
 			btnObservatorioPrecio	= Bitmap.getBitmapResource("btnObservatorioPrecio_320.png");
 			btnObservatorioPrecio1 	= Bitmap.getBitmapResource("btnObservatorioPrecio1_320.png");
@@ -114,50 +123,102 @@ public class MenuMain extends Estilos {
 			VerticalFieldManager contentMenuMain = new VerticalFieldManager(VerticalFieldManager.FIELD_HCENTER | VerticalFieldManager.FIELD_VCENTER);
 			contentMenuMain.setMargin(diecisiete, 0, 10, cientocinco);
 			
+			if((cerrarscreen == 1) || (cerrarscreen == 2)){
 				
-            BitmapButtonField btnObservatorioPrecioUser = new BitmapButtonField(btnObservatorioPrecio,btnObservatorioPrecio1);
-            btnObservatorioPrecioUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
-    			}
-            });            
-            contentMenuMain.add(btnObservatorioPrecioUser);
+				BitmapButtonField btnObservatorioPrecioUser = new BitmapButtonField(btnObservatorioPrecio,btnObservatorioPrecio1);
+	            btnObservatorioPrecioUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+	    			}
+	            });            
+	            contentMenuMain.add(btnObservatorioPrecioUser);
+	            
+		
+	            BitmapButtonField btnListaCompraUser = new BitmapButtonField(btnListaCompra,btnListaCompra1);
+	            btnListaCompraUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new ListaProductos());
+	    			}
+	            });            
+	            contentMenuMain.add(btnListaCompraUser);
+	            
+		
+	            BitmapButtonField btnTemporadaUser = new BitmapButtonField(btnTemporada,btnTemporada1);
+	            btnTemporadaUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new CategoriaProductoT());
+	    			}
+	            });            
+	            contentMenuMain.add(btnTemporadaUser);
+	            
+		
+	            BitmapButtonField btnFavoritosUser = new BitmapButtonField(btnFavoritos,btnFavoritos1);
+	            btnFavoritosUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new FavoritoProducto());
+	    			}
+	            });            
+	            contentMenuMain.add(btnFavoritosUser);
+	            
+		
+	            BitmapButtonField btnAjustesUser = new BitmapButtonField(btnAjustes,btnAjustes1);
+	            btnAjustesUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new Ajustes());
+	    			}
+	            });
+	            contentMenuMain.add(btnAjustesUser);
+				
+			}else if(cerrarscreen == 3){
+				
+				favoritos.validacionUser();
+				
+				BitmapButtonField btnObservatorioPrecioUser = new BitmapButtonField(btnObservatorioPrecio,btnObservatorioPrecio1);
+	            btnObservatorioPrecioUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {	    				
+	    				UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+	    			}
+	            });            
+	            contentMenuMain.add(btnObservatorioPrecioUser);
+	            
+		
+	            BitmapButtonField btnListaCompraUser = new BitmapButtonField(btnListaCompra,btnListaCompra1);
+	            btnListaCompraUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				Dialog.alert("Debes iniciar sesión o registrarte para acceder a ésta función.");
+	    			}
+	            });            
+	            contentMenuMain.add(btnListaCompraUser);
+	            
+		
+	            BitmapButtonField btnTemporadaUser = new BitmapButtonField(btnTemporada,btnTemporada1);
+	            btnTemporadaUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				UiApplication.getUiApplication().pushScreen(new CategoriaProductoT());
+	    			}
+	            });            
+	            contentMenuMain.add(btnTemporadaUser);
+	            
+		
+	            BitmapButtonField btnFavoritosUser = new BitmapButtonField(btnFavoritos,btnFavoritos1);
+	            btnFavoritosUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				Dialog.alert("Debes iniciar sesión o registrarte para acceder a ésta función.");
+	    			}
+	            });            
+	            contentMenuMain.add(btnFavoritosUser);
+	            
+		
+	            BitmapButtonField btnAjustesUser = new BitmapButtonField(btnAjustes,btnAjustes1);
+	            btnAjustesUser.setChangeListener( new FieldChangeListener( ) {
+	    			public void fieldChanged( Field field, int context ) {
+	    				Dialog.alert("Debes iniciar sesión o registrarte para acceder a ésta función.");
+	    			}
+	            });
+	            contentMenuMain.add(btnAjustesUser);
+			}
+				
             
-	
-            BitmapButtonField btnListaCompraUser = new BitmapButtonField(btnListaCompra,btnListaCompra1);
-            btnListaCompraUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new ListaProductos());
-    			}
-            });            
-            contentMenuMain.add(btnListaCompraUser);
-            
-	
-            BitmapButtonField btnTemporadaUser = new BitmapButtonField(btnTemporada,btnTemporada1);
-            btnTemporadaUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new ProductosCotizar());
-    			}
-            });            
-            contentMenuMain.add(btnTemporadaUser);
-            
-	
-            BitmapButtonField btnFavoritosUser = new BitmapButtonField(btnFavoritos,btnFavoritos1);
-            btnFavoritosUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new FavoritoProducto());
-    			}
-            });            
-            contentMenuMain.add(btnFavoritosUser);
-            
-	
-            BitmapButtonField btnAjustesUser = new BitmapButtonField(btnAjustes,btnAjustes1);
-            btnAjustesUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new Ajustes());
-    			}
-            });
-            contentMenuMain.add(btnAjustesUser);
             
             allContentInicio.add(contentMenuMain);
             add(allContentInicio);
@@ -167,5 +228,23 @@ public class MenuMain extends Estilos {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void close() {
+    	
+		if((cerrarscreen == 1) || (cerrarscreen == 2)){
+			//UiApplication.getUiApplication().popScreen();
+			int ans = Dialog.ask(Dialog.D_YES_NO,"¿Realmente desea salir de la aplicación Observatorio de Precios?");
+		    if (ans == Dialog.NO) {
+		        // Do Nothing
+		    } else {
+				System.exit(0);
+		        super.close();
+		    }
+		}else if(cerrarscreen == 3){
+			favoritos.eliminarTemporalUser();
+			UiApplication.getUiApplication().popScreen();
+		}
+		
+    }
 	
 }

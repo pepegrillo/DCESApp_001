@@ -1,4 +1,4 @@
-package observatorioPrecio;
+package temporadaProducto;
 
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
@@ -21,7 +21,7 @@ import configurations.Metodo;
 import configurations.Strings;
 import estilos.Estilos;
 
-public class PerfilProducto extends Estilos {
+public class PerfilProductoT extends Estilos {
 	
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
@@ -47,7 +47,7 @@ public class PerfilProducto extends Estilos {
 	
 	FavoritoPx favoritos = new FavoritoPx();
 	
-	public PerfilProducto(String idestablecimiento, String idproducto, String producto, String marca, String presentacion, String precio, String preciopromo, String nombre, final String latitudSt, final String longitudSt, String fecha) {
+	public PerfilProductoT(String idestablecimiento, String idproducto, String producto, String marca, String presentacion, String precio, String preciopromo, String nombre, final String latitudSt, final String longitudSt, String fecha) {
 		Nombre = nombre;
 		
 		idEstablecimiento = idestablecimiento;
@@ -173,7 +173,7 @@ public class PerfilProducto extends Estilos {
             btnAceptarRegUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
     				//UiApplication.getUiApplication().pushScreen(new VerMapa());
-    				UiApplication.getUiApplication().pushScreen(new VerMapa(latitudSt,longitudSt,Nombre));
+    				UiApplication.getUiApplication().pushScreen(new VerMapaT(latitudSt,longitudSt,Nombre));
     			}
             });
             btnAceptarRegUser.setMargin(25, 10, 25, 0);

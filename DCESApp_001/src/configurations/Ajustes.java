@@ -1,5 +1,7 @@
 package configurations;
 
+import mypackage.MenuMain;
+import mypackage.MyScreen;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
@@ -7,11 +9,13 @@ import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.FontFamily;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.BitmapField;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.component.Status;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
+import pck_WS.LoginPx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
@@ -138,7 +142,16 @@ public class Ajustes extends Estilos {
             BitmapButtonField btnSearchUser = new BitmapButtonField(btnLogout,btnLogout1,Field.FIELD_RIGHT);
             btnSearchUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
-    				//UiApplication.getUiApplication().pushScreen(new Producto());
+    				int ans = Dialog.ask(Dialog.D_YES_NO,
+    						"¿Realmente deseas cerrar sesión?");
+    				if (ans == Dialog.NO) {
+    					// Do Nothing
+    				} else {
+    					Status.show("Cerrando Sesión...");
+    					new LoginPx();
+        				UiApplication.getUiApplication().pushScreen(new MyScreen());
+    				}
+    				
     			}
             });     
             btnSearchUser.setMargin(ocho, 0, 0, cuatrocuarenta);
@@ -152,10 +165,11 @@ public class Ajustes extends Estilos {
 			
 			
 			//Lista Categoria
-			VerticalField allContentAjustes = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
+			VerticalFieldManager allContentAjustes = new VerticalFieldManager(HorizontalFieldManager.FIELD_HCENTER);
+			//VerticalField allContentAjustes = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | VerticalFieldManager.FIELD_HCENTER  | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
 			
-			BitmapField logoListaf = new BitmapField(logoList);   
-	        allContentAjustes.add(logoListaf);
+			/*BitmapField logoListaf = new BitmapField(logoList);   
+	        allContentAjustes.add(logoListaf);*/
 	        
 	        
             BitmapButtonField btnPuntosMapaUser = new BitmapButtonField(btnPuntosMapa,btnPuntosMapa1,Field.FIELD_HCENTER);
@@ -164,14 +178,14 @@ public class Ajustes extends Estilos {
     				UiApplication.getUiApplication().pushScreen(new CambiarPuntosMap());
     			}
             });
-            btnPuntosMapaUser.setMargin(20,0,0,0);
+            btnPuntosMapaUser.setMargin(30,0,0,0);
             allContentAjustes.add(btnPuntosMapaUser);
             
               
             BitmapButtonField btnChangePwUser = new BitmapButtonField(btnChangePw,btnChangePw1,Field.FIELD_HCENTER);
             btnChangePwUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
-    				//UiApplication.getUiApplication().pushScreen(new Producto());
+    				UiApplication.getUiApplication().pushScreen(new CambiarPw());
     			}
             });
             btnChangePwUser.setMargin(20,0,20,0);

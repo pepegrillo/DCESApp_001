@@ -2,8 +2,6 @@ package configurations;
 
 import java.util.Vector;
 
-import listaProductos.ListaInteligente;
-
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.DrawStyle;
@@ -14,7 +12,6 @@ import net.rim.device.api.ui.FontFamily;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.XYEdges;
-import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
@@ -24,7 +21,6 @@ import net.rim.device.api.ui.decor.BorderFactory;
 import com.samples.toolkit.ui.component.BitmapButtonField;
 import com.samples.toolkit.ui.component.ListStyleButtonField;
 
-import configurations.Strings;
 import estilos.Estilos;
 
 public class ListaEstablecimiebtosMap extends Estilos implements FieldChangeListener {

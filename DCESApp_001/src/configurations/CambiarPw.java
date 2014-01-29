@@ -1,9 +1,12 @@
-package mypackage;
+package configurations;
 
-import org.json.me.JSONObject;
-
-import pck_WS.LoginCx;
-
+import mypackage.MyScreen;
+import net.rim.device.api.database.Cursor;
+import net.rim.device.api.database.Database;
+import net.rim.device.api.database.DatabaseFactory;
+import net.rim.device.api.database.Row;
+import net.rim.device.api.database.Statement;
+import net.rim.device.api.io.URI;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
@@ -23,17 +26,16 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
 
+import org.json.me.JSONObject;
+
+import pck_WS.LoginPx;
+
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
-import configurations.ConexionController;
-import configurations.Encode;
-import configurations.Metodo;
-import configurations.Strings;
 import estilos.Estilos;
-import estilos.JustifiedHorizontalFieldManager;
 import estilos.LabeledSwitch;
 
-public class registroUser extends Estilos {
+public class CambiarPw extends Estilos {
 	
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
@@ -51,12 +53,20 @@ public class registroUser extends Estilos {
 	EmailAddressEditField txtEmails;
 	PasswordEditField txtPass;
 	PasswordEditField txtRePass;
+	PasswordEditField txtPassOld;
 	
 	Bitmap btnAceptarReg 	= Bitmap.getBitmapResource("btnAceptarReg.png");
 	Bitmap btnAceptarReg1 	= Bitmap.getBitmapResource("btnAceptarReg1.png");
 	
 	private String genero;
 	private LabeledSwitch generoSwitch;
+	
+	public String hashKey    = new String();
+	
+	DbSql path = new DbSql();
+	DbSql statement = new DbSql();
+	
+	
 	
 	//personalizacion
 	int cinco	= 5;
@@ -65,7 +75,7 @@ public class registroUser extends Estilos {
 	int cincuenta	= 50;
 	int heightScroll = 343;
 	
-	public registroUser() {
+	public CambiarPw() {
 				
 		if (Display.getWidth() == 320) {
 
@@ -130,7 +140,7 @@ public class registroUser extends Estilos {
 			logoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0xe2ab32, 0xe2ab32,0xdc9730, 0xdc9730));
 			logoHfm.setMargin(veinte, 0, 0, 0);
 
-			ColorRichText emailCrt = new ColorRichText(Strings.REGISTRO,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
+			ColorRichText emailCrt = new ColorRichText(Strings.CHANGEPW,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
 			emailCrt.setFont(fTitle);
 			emailCrt.setMargin(veinte, 0, veinte, 0);
 
@@ -142,77 +152,25 @@ public class registroUser extends Estilos {
 
 			// Formulario
 			VerticalFieldManager contentForm = new VerticalFieldManager();
-
-			ColorRichText nameCrt = new ColorRichText(Strings.NAME, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
-			nameCrt.setFont(fLite);
-			nameCrt.setMargin(veinte, 20, cinco, cincuenta);
-			contentForm.add(nameCrt);
 			
+			/*ColorRichText pwCrtOld = new ColorRichText(Strings.PWACTUAL, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			pwCrtOld.setFont(fLite);
+			pwCrtOld.setMargin(veinte, 20, cinco, cincuenta);
+			contentForm.add(pwCrtOld);
 
-			txtName = new BasicEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtPassOld = new PasswordEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
 				}
 			};
-			txtName.setBorder(BorderFactory.createBitmapBorder(new XYEdges(5,13, 5, 13), bordes));
-			txtName.setMargin(0, cincuenta, 0, cincuenta);
-			txtName.setPadding(cinco, cinco, cinco, cinco);
-			contentForm.add(txtName);
+			txtPassOld.setBorder(BorderFactory.createBitmapBorder(new XYEdges(5,13, 5, 13), bordes));
+			txtPassOld.setMargin(0, cincuenta, 0, cincuenta);
+			txtPassOld.setPadding(cinco, cinco, cinco, cinco);
+			contentForm.add(txtPassOld);*/
 			
 			
-			
-			ColorRichText lastnameCrt = new ColorRichText(Strings.LASTNAME, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
-			lastnameCrt.setFont(fLite);
-			lastnameCrt.setMargin(veinte, 20, cinco, cincuenta);
-			contentForm.add(lastnameCrt);
-
-			txtLastName = new BasicEditField("", "", 70, BasicEditField.JUMP_FOCUS_AT_END) {
-				public void paint(Graphics g) {
-					g.setColor(0xFFF);
-					super.paint(g);
-				}
-			};
-			txtLastName.setBorder(BorderFactory.createBitmapBorder(new XYEdges(5,13, 5, 13), bordes));
-			txtLastName.setMargin(0, cincuenta, 0, cincuenta);
-			txtLastName.setPadding(cinco, cinco, cinco, cinco);
-			contentForm.add(txtLastName);
-			
-			
-			Bitmap switchOn = Bitmap.getBitmapResource( "switch_left.png" );
-			Bitmap switchOff = Bitmap.getBitmapResource( "switch_right.png" );
-			Bitmap switchOnFocus = Bitmap.getBitmapResource( "switch_left_focus.png" );
-			Bitmap switchOffFocus = Bitmap.getBitmapResource( "switch_right_focus.png" );
-			
-			ColorRichText generoCrt = new ColorRichText(Strings.GENERO, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
-			generoCrt.setFont(fLite);
-			generoCrt.setMargin(veinte, 20, cinco, cincuenta);
-			generoSwitch = new LabeledSwitch( switchOff, switchOn, switchOffFocus, switchOnFocus, "Femenino", "Masculino", true );
-			generoSwitch.setFont(fLite);
-			generoSwitch.setMargin(veinte, cincuenta, cinco, cincuenta);
-			
-			JustifiedHorizontalFieldManager campoGeneroJhm = new JustifiedHorizontalFieldManager(generoCrt, generoSwitch, false, USE_ALL_WIDTH );
-			contentForm.add(campoGeneroJhm);
-			
-			
-			ColorRichText emailsCrt = new ColorRichText(Strings.EMAILS, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
-			emailsCrt.setFont(fLite);
-			emailsCrt.setMargin(veinte, 20, cinco, cincuenta);
-			contentForm.add(emailsCrt);
-
-			txtEmails = new EmailAddressEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
-				public void paint(Graphics g) {
-					g.setColor(0xFFF);
-					super.paint(g);
-				}
-			};
-			txtEmails.setBorder(BorderFactory.createBitmapBorder(new XYEdges(5,13, 5, 13), bordes));
-			txtEmails.setMargin(0, cincuenta, 0, cincuenta);
-			txtEmails.setPadding(cinco, cinco, cinco, cinco);
-			contentForm.add(txtEmails);
-			
-			
-			ColorRichText pwCrt = new ColorRichText(Strings.PWDS, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			ColorRichText pwCrt = new ColorRichText(Strings.PWNEW, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			pwCrt.setFont(fLite);
 			pwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(pwCrt);
@@ -229,7 +187,7 @@ public class registroUser extends Estilos {
 			contentForm.add(txtPass);
 			
 			
-			ColorRichText rePwCrt = new ColorRichText(Strings.RPWDS, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			ColorRichText rePwCrt = new ColorRichText(Strings.REPWNEW, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			rePwCrt.setFont(fLite);
 			rePwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(rePwCrt);
@@ -249,55 +207,55 @@ public class registroUser extends Estilos {
             btnAceptarRegUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
     				if(getTipo.equals("wifi") || getTipo.equals("BIBS")){
-    					if (generoSwitch.getOnState() == true){
-	    					//Femenino
-	            			genero = "F";
-	            			//Status.show("femenino "+genero,1500);
-	            		}else{
-	            			//Masculino
-	            			genero = "M";
-	            		}
-	    				if((txtName.getTextLength()>=3) && (txtLastName.getTextLength()>=3) && (txtEmails.getTextLength()>=10) && (txtPass.getTextLength()>=6) && ((txtPass.getText().equals(txtRePass.getText())))){
+    					
+	    				if(/*(txtPassOld.getTextLength()>0) &&*/ (txtPass.getTextLength()>=6) && ((txtPass.getText().equals(txtRePass.getText())))){
 	    					//UiApplication.getUiApplication().pushScreen(new MyScreen());
 	    					Status.show("CAMPOS COMPLETADOS CORRECTAMENTE");
 	    					try{
+	    						
+	    						URI uri = URI.create(path.Path());
+	    						Database sqliteDB = DatabaseFactory.open(uri);
+	    							    						
+	    						Statement sf = sqliteDB.createStatement(statement.SelectHashKey());
+	    						sf.prepare();
+	    						Cursor cf = sf.getCursor();
+	    						Row rf;
+	    						while(cf.next()){
+	    							rf = cf.getRow();
+	    							hashKey = rf.getString(0);
+	    							//incremento ++;
+	    						}
+	    						cf.close();
+	    						sf.close();	    						
+	    						sqliteDB.close();
+	    						
 		    					Encode sha = new Encode();
-		    					String Pw = sha.SHA1(txtPass.getText().toString());
-		    					//String Pw = txtPass.getText().toString();
-		    					String url = Strings.HTTP_SW+"postMiembro"+tipoConexion;
-		    					String json = "'nombre'		: '"+txtName.getText().toString()+"'," +
-		    								"'apellido'		: '"+txtLastName.getText().toString()+"'," +
-											"'sexo'			: '"+genero.toString()+"'," +
-											"'correo'		: '"+txtEmails.getText().toString()+"'," +
-											"'clave'		: '"+Pw+"'";
+		    					String Pw2 = sha.SHA1(txtPass.getText().toString());
+		    					//String Pw2 = txtPass.getText().toString();
+		    					
+		    					String url = "http://observatoriodeprecios.defensoria.gob.sv/ApiREST.php//v1/putCambiarClave/"+tipoConexion;
+		    					String json = "'hashKey'		: '"+hashKey+"'," +
+											"'clave'		: '"+Pw2+"'";
 		    					Dialog.alert(json);
-		    					String response = request.POST(url,json);
+		    					String response = request.PUT(url,json);
 		    					
 		    					JSONObject objeto1 =  new  JSONObject ( response );
 		    		            String resultado1 = objeto1.getString("response");		            
 		    		            JSONObject objeto2 =  new  JSONObject ( resultado1 );    		           
 		    		            response  = objeto2.getString("errorCode");
 		    		            
-		    		            String datosUser = objeto2.getString("msg");
-		    		            JSONObject objeto3 = new JSONObject( datosUser );
-		    		            String email = objeto3.getString("correo");
-		    		            
 		    		            if(response.equals("0")){
 		    		            	Dialog.alert(objeto2.getString("errorMessage"));
-		    		            	new LoginCx(email, Pw);
-		    		            	UiApplication.getUiApplication().pushScreen(new MenuMain(2));
+		    		            	new LoginPx();
+		    		            	UiApplication.getUiApplication().pushScreen(new MyScreen());
 		    		            }else{
 		    		            	Dialog.alert("Ha ocurrido algo inesperado, inténtelo de nuevo.");
 		    		            }
 		    					
 		    				}catch (Exception e) {
 								// TODO: handle exception
-		    					Dialog.alert("Ha ocurrido algo inesperado, inténtelo de nuevo.");
+		    					Dialog.alert("Ha ocurrido algo inesperado, inténtelo de nuevo 404.");
 							}
-	    				}else if (((txtName.getTextLength()<3) && (txtLastName.getTextLength()<3)) || ((txtName.getTextLength()<3) || (txtLastName.getTextLength()<3))){
-	    					Status.show(Strings.VT_CAMPOTRES);
-	    				}else if ((txtEmails.getTextLength()<10)){
-	    					Status.show(Strings.VT_CAMPODIEZ);
 	    				}else if ((txtPass.getTextLength()<6) && (txtRePass.getTextLength()<6)){
 	    					Status.show(Strings.VT_CAMPOPW);
 	    				}else if ((txtPass.getText() != txtRePass.getText())){

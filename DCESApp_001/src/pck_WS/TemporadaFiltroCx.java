@@ -1,4 +1,4 @@
- package pck_WS;
+package pck_WS;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,7 +7,6 @@ import java.util.Vector;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
-
 
 import net.rim.device.api.database.Cursor;
 import net.rim.device.api.database.Database;
@@ -21,13 +20,13 @@ import net.rim.device.api.ui.component.Status;
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
-import pck_SG.CategoriaProductoSG;
-
+import pck_SG.FiltroSG;
 import configurations.ConexionController;
 import configurations.DbSql;
 import configurations.Strings;
 
-public class CategoriaProductoCx {
+public class TemporadaFiltroCx {
+
 	
 	private String connectionURL;
 	private HttpConnection conn;
@@ -38,8 +37,8 @@ public class CategoriaProductoCx {
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
 	
-	public Vector IdCategoria   = new Vector();
-	public Vector Categoria     = new Vector();
+	public Vector IdMunicipio   = new Vector();
+	public Vector Municipio     = new Vector();
 	
 	public String errorCode    = new String();
 	public String errorMessage = new String();
@@ -48,14 +47,14 @@ public class CategoriaProductoCx {
 	DbSql statement = new DbSql();
 	private int incremento;
 	
-	CategoriaProductoSG categoria = new CategoriaProductoSG();
+	FiltroSG filtro = new FiltroSG();
 	
-	public CategoriaProductoCx(){
+	public TemporadaFiltroCx(String idCategoria){
 		
 		try{
 			URI uri = URI.create(path.Path());
 			Database sqliteDB = DatabaseFactory.open(uri);
-			Statement se = sqliteDB.createStatement(statement.SelectCategoriaProducto());
+			Statement se = sqliteDB.createStatement(statement.SelectTemporadaMunicipio(idCategoria));
 			se.prepare();
 			Cursor c = se.getCursor();
 			Row r;
@@ -69,43 +68,44 @@ public class CategoriaProductoCx {
 			if(incremento == 0){
 				if(getTipo.equals("wifi")){
 					Status.show(Strings.MSG_DESCARGANDO);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idCategoria);
+					descargarDatos(idCategoria);
 				}else if(getTipo.equals("BIBS")){
 					Status.show(Strings.MSG_DESCARGANDO_SLOW);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idCategoria);
+					descargarDatos(idCategoria);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
 					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+		            		"intentelo de nuevo más tarde";
 					//onClose();
 				}
 			//Sí hay datos
 			}else if(incremento >= 1){
 				if(getTipo.equals("wifi")){
 					Status.show(Strings.MSG_DESCARGANDO);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idCategoria);
+					descargarDatos(idCategoria);
 					
-				}else{
-					cargarDatos();
+				}else{					
+					cargarDatos(idCategoria);
+					 //Dialog.alert("no tengo inter "+incremento);
 				}
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo más tarde";
+            		"intentelo de nuevo más tarde";
 		}
 		
-		
-	
 	}
 	
-	public void descargarDatos(){
+	public void descargarDatos(String idcategoria){
+		
+
 		try{
 			
-			connectionURL = Strings.HTTP_SW+"getCategorias/0"+tipoConexion;
+			connectionURL = "http://observatoriodeprecios.defensoria.gob.sv/v1/getFiltroMunicipios/"+idcategoria+"/"+tipoConexion;
 
 	        conn = (HttpConnection) Connector.open(connectionURL);
 	        conn.setRequestProperty("Content-Type","application/json");
@@ -138,39 +138,38 @@ public class CategoriaProductoCx {
 		            	
 		            	JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
 		            	
-		            	/*IdCategoria.addElement(childJSONObject.get("idCategoria"));
-		            	Categoria.addElement(childJSONObject.get("categoria"));*/
 		            	try{
-			            	URI uri1 = URI.create(path.Path());
-							Database sqliteDB1 = DatabaseFactory.open(uri1);
-							Statement in = sqliteDB1.createStatement(statement.InsertCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
-							//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
-							in.prepare();
+		            		URI uri1 = URI.create(path.Path());
+		            		Database sqliteDB1 = DatabaseFactory.open(uri1);
+		            		Statement in = sqliteDB1.createStatement(
+		            				statement.InsertTemporadaMunicipio(idcategoria,
+		            						childJSONObject.getString("idMunicipio"),
+		            						childJSONObject.getString("municipio")));
+		            		in.prepare();
 							in.execute();
 							in.close(); 
 							sqliteDB1.close();
-		            	}catch (Exception e){
+		            	}catch (Exception e) {
+							// TODO: handle exception
 		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo más tarde";
-		 	     			//Dialog.alert("error elements habits "+e.getMessage());
-		 	     		}
+				            		"intentelo de nuevo más tarde";
+						}
+		            	
 		            
 	            	}
 	            	
-	            	cargarDatos();
+	            	cargarDatos(idcategoria);
 	            	
 	            }else if (errorCode.equals("1")){
 		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+		            		"intentelo de nuevo más tarde";
 	            	
 	            }
 	        }
 	            
-	        
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+	        	Dialog.alert("descargar datos "+e.getMessage());
 			}finally{
 				if(conn != null)
 					try {
@@ -195,60 +194,58 @@ public class CategoriaProductoCx {
 					}
 			}
 		
-			   
-		}
+	}
 	
-		public void cargarDatos(){
-			//Dialog.alert("Entro a la base");
-			try{
-				URI uri = URI.create(path.Path());
-				Database sqliteDB = DatabaseFactory.open(uri);
-
-	          		Statement selectR = sqliteDB.createStatement(statement.SelectCategoriaProducto());
-	          		selectR.prepare();
-	                       Cursor cursorR = selectR.getCursor();
-	                       Row rc;
-	                       //int i = 0;
-	                       while(cursorR.next()){
-	                           rc = cursorR.getRow();
-	                           IdCategoria.addElement(rc.getString(0));
-	                           Categoria.addElement(rc.getString(1));
-	                       }
-	                       selectR.close();
-	                       cursorR.close();
-	                       sqliteDB.close();
-	                       errorCode = "0";
-			}catch(Exception e){
-				Dialog.alert(e.getMessage());
-				errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
-			}finally{
-				categoria.setIdCategoria(IdCategoria);
-				categoria.setCategoria(Categoria); 
-				categoria.seterrorCode(errorCode);
-				categoria.seterrorMessage(errorMessage);
+	public void cargarDatos(String idcategoria){
+		
+		try{
+			URI uri = URI.create(path.Path());
+			Database sqliteDB = DatabaseFactory.open(uri);
+			
+			Statement selectR = sqliteDB.createStatement(statement.SelectTemporadaMunicipio(idcategoria));
+			selectR.prepare();
+			Cursor cursorR = selectR.getCursor();
+			Row rc;
+			
+			while(cursorR.next()){
+				rc = cursorR.getRow();
+				IdMunicipio.addElement(rc.getString(1));
+				Municipio.addElement(rc.getString(2));
 			}
+			
+            selectR.close();
+            cursorR.close();
+            sqliteDB.close();
+            errorCode = "0";
+		}catch (Exception e) {
+			// TODO: handle exception
+			Dialog.alert("cargar datos "+e.getMessage());
+			errorMessage = "En este momento no se pueden \n mostrar datos " +
+            		"intentelo de nuevo más tarde";
+		}finally{
+			filtro.setIdMunicipio(IdMunicipio);
+			filtro.setMunicipio(Municipio);
+			filtro.seterrorCode(errorCode);
+			filtro.seterrorMessage(errorMessage);
 		}
 		
-		public void eliminarDatos(){
-			
-			try{
-            	URI uri1 = URI.create(path.Path());
-				Database sqliteDB1 = DatabaseFactory.open(uri1);
-				Statement dt = sqliteDB1.createStatement(statement.DeleteCategoriaProducto());
-				//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
-				dt.prepare();
-				dt.execute();
-				dt.close(); 
-				sqliteDB1.close();
-        	}catch (Exception e){
-        		errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
-     			//Dialog.alert("error elements habits "+e.getMessage());
-     		}
-			
-		}
-
-}
+	}
 	
-
+	public void eliminarDatos(String idcategoria){
+		
+		try{
+        	URI uri1 = URI.create(path.Path());
+			Database sqliteDB1 = DatabaseFactory.open(uri1);
+			Statement dt = sqliteDB1.createStatement(statement.DeleteTemporadaMunicipio(idcategoria));
+			
+			dt.prepare();
+			dt.execute();
+			dt.close(); 
+			sqliteDB1.close();
+    	}catch (Exception e){
+ 			//Dialog.alert("error elements habits "+e.getMessage());
+ 		}
+		
+	}
+	
+}

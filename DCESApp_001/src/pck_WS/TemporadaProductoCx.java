@@ -1,4 +1,4 @@
- package pck_WS;
+package pck_WS;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,10 +8,10 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
-
 import net.rim.device.api.database.Cursor;
 import net.rim.device.api.database.Database;
 import net.rim.device.api.database.DatabaseFactory;
+import net.rim.device.api.database.DatabaseIOException;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
@@ -21,13 +21,12 @@ import net.rim.device.api.ui.component.Status;
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
-import pck_SG.CategoriaProductoSG;
-
+import pck_SG.ProductoSG;
 import configurations.ConexionController;
 import configurations.DbSql;
 import configurations.Strings;
 
-public class CategoriaProductoCx {
+public class TemporadaProductoCx {
 	
 	private String connectionURL;
 	private HttpConnection conn;
@@ -38,8 +37,8 @@ public class CategoriaProductoCx {
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
 	
-	public Vector IdCategoria   = new Vector();
-	public Vector Categoria     = new Vector();
+	public Vector IdProducto   = new Vector();
+	public Vector Nombre       = new Vector(); 
 	
 	public String errorCode    = new String();
 	public String errorMessage = new String();
@@ -48,14 +47,17 @@ public class CategoriaProductoCx {
 	DbSql statement = new DbSql();
 	private int incremento;
 	
-	CategoriaProductoSG categoria = new CategoriaProductoSG();
+	ProductoSG producto = new ProductoSG();
+	//private Database sqliteDB;
 	
-	public CategoriaProductoCx(){
-		
+	//String idporcategoria;
+	
+	public TemporadaProductoCx(String idPorCategoria){
+				
 		try{
 			URI uri = URI.create(path.Path());
 			Database sqliteDB = DatabaseFactory.open(uri);
-			Statement se = sqliteDB.createStatement(statement.SelectCategoriaProducto());
+			Statement se = sqliteDB.createStatement(statement.SelectTemporadaProducto(idPorCategoria));
 			se.prepare();
 			Cursor c = se.getCursor();
 			Row r;
@@ -69,43 +71,43 @@ public class CategoriaProductoCx {
 			if(incremento == 0){
 				if(getTipo.equals("wifi")){
 					Status.show(Strings.MSG_DESCARGANDO);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idPorCategoria);
+					descargarDatos(idPorCategoria);
 				}else if(getTipo.equals("BIBS")){
 					Status.show(Strings.MSG_DESCARGANDO_SLOW);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idPorCategoria);
+					descargarDatos(idPorCategoria);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
 					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+		            		"intentelo de nuevo más tarde";
 					//onClose();
 				}
 			//Sí hay datos
 			}else if(incremento >= 1){
 				if(getTipo.equals("wifi")){
 					Status.show(Strings.MSG_DESCARGANDO);
-					eliminarDatos();
-					descargarDatos();
+					eliminarDatos(idPorCategoria);
+					descargarDatos(idPorCategoria);
 					
-				}else{
-					cargarDatos();
+				}else{					
+					cargarDatos(idPorCategoria);
+					 //Dialog.alert("no tengo inter "+incremento);
 				}
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo más tarde";
+        		"intentelo de nuevo más tarde";
 		}
 		
-		
-	
 	}
 	
-	public void descargarDatos(){
+	public void descargarDatos(String idporcategoria){
+		
 		try{
 			
-			connectionURL = Strings.HTTP_SW+"getCategorias/0"+tipoConexion;
+			connectionURL = Strings.HTTP_SW+"getListaDeProductosPorCategoria/"+idporcategoria+tipoConexion;
 
 	        conn = (HttpConnection) Connector.open(connectionURL);
 	        conn.setRequestProperty("Content-Type","application/json");
@@ -126,51 +128,52 @@ public class CategoriaProductoCx {
 	            JSONObject objeto1 =  new  JSONObject ( response );
 	            String resultado1  = objeto1.getString("response");
 	            	            	            
-	            JSONObject objeto2 =  new  JSONObject ( resultado1 );
+	            JSONObject objeto2  =  new  JSONObject ( resultado1 );
 	            errorCode    = objeto2.getString("errorCode");
 	            errorMessage = objeto2.getString("errorMessage");
-	            
 	            if(errorCode.equals("0")){
-	            
 		            JSONArray jsonMainArr = objeto2.getJSONArray("msg");
 				
 	            	for (int i = 0; i < jsonMainArr.length(); i++) {
 		            	
 		            	JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
 		            	
-		            	/*IdCategoria.addElement(childJSONObject.get("idCategoria"));
-		            	Categoria.addElement(childJSONObject.get("categoria"));*/
+		            	//IdProducto.addElement(childJSONObject.get("idProducto"));
+		            	//Nombre.addElement(childJSONObject.get("nombre"));
 		            	try{
 			            	URI uri1 = URI.create(path.Path());
 							Database sqliteDB1 = DatabaseFactory.open(uri1);
-							Statement in = sqliteDB1.createStatement(statement.InsertCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
-							//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
+							Statement in = sqliteDB1.createStatement(
+									statement.InsertTemporadaProducto(idporcategoria,
+															childJSONObject.getString("idProducto"),
+															childJSONObject.getString("nombre")));
+							//Dialog.alert(in+"");
 							in.prepare();
 							in.execute();
 							in.close(); 
 							sqliteDB1.close();
 		            	}catch (Exception e){
 		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo más tarde";
-		 	     			//Dialog.alert("error elements habits "+e.getMessage());
+				            		"intentelo de nuevo más tarde";
 		 	     		}
 		            
 	            	}
 	            	
-	            	cargarDatos();
-	            	
+	            	cargarDatos(idporcategoria);
+            	
 	            }else if (errorCode.equals("1")){
 		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+		            		"intentelo de nuevo más tarde";
 	            	
 	            }
 	        }
 	            
+	       
 	        
 	        }catch (Exception e) {
 				// TODO: handle exception
 	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+	            		"intentelo de nuevo más tarde";
 			}finally{
 				if(conn != null)
 					try {
@@ -195,59 +198,61 @@ public class CategoriaProductoCx {
 					}
 			}
 		
-			   
-		}
-	
-		public void cargarDatos(){
-			//Dialog.alert("Entro a la base");
-			try{
-				URI uri = URI.create(path.Path());
-				Database sqliteDB = DatabaseFactory.open(uri);
-
-	          		Statement selectR = sqliteDB.createStatement(statement.SelectCategoriaProducto());
-	          		selectR.prepare();
-	                       Cursor cursorR = selectR.getCursor();
-	                       Row rc;
-	                       //int i = 0;
-	                       while(cursorR.next()){
-	                           rc = cursorR.getRow();
-	                           IdCategoria.addElement(rc.getString(0));
-	                           Categoria.addElement(rc.getString(1));
-	                       }
-	                       selectR.close();
-	                       cursorR.close();
-	                       sqliteDB.close();
-	                       errorCode = "0";
-			}catch(Exception e){
-				Dialog.alert(e.getMessage());
-				errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
-			}finally{
-				categoria.setIdCategoria(IdCategoria);
-				categoria.setCategoria(Categoria); 
-				categoria.seterrorCode(errorCode);
-				categoria.seterrorMessage(errorMessage);
-			}
-		}
+			
 		
-		public void eliminarDatos(){
-			
-			try{
-            	URI uri1 = URI.create(path.Path());
-				Database sqliteDB1 = DatabaseFactory.open(uri1);
-				Statement dt = sqliteDB1.createStatement(statement.DeleteCategoriaProducto());
-				//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
-				dt.prepare();
-				dt.execute();
-				dt.close(); 
-				sqliteDB1.close();
-        	}catch (Exception e){
-        		errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
-     			//Dialog.alert("error elements habits "+e.getMessage());
-     		}
+	}
+	
+	public void cargarDatos(String idporcategoria){
+		
+		try{
+			URI uri = URI.create(path.Path());
+			Database sqliteDB = DatabaseFactory.open(uri);
+
+          		Statement selectR = sqliteDB.createStatement(statement.SelectTemporadaProducto(idporcategoria));
+          		//Dialog.alert("Entro a la base"+statement.SelectProducto(idporcategoria));
+          		selectR.prepare();
+                       Cursor cursorR = selectR.getCursor();
+                       Row rc;
+                       //int i = 0;
+                       while(cursorR.next()){
+                           rc = cursorR.getRow();
+                           IdProducto.addElement(rc.getString(1));
+                           Nombre.addElement(rc.getString(2));
+                           //Dialog.alert("recorriendo "+rc.getString(1)+rc.getString(2));
+                       }
+                       selectR.close();
+                       cursorR.close();
+                       sqliteDB.close();
+                       errorCode = "0";
+		}catch(Exception e){
+			errorMessage = "En este momento no se pueden \n mostrar datos " +
+            		"intentelo de nuevo más tarde";
+		}finally{
+			producto.setIdProducto(IdProducto);
+			producto.setNombre(Nombre);
+			producto.seterrorCode(errorCode);
+			producto.seterrorMessage(errorMessage);
 			
 		}
+	}
+	
+	
+	public void eliminarDatos(String idporcategoria){
+		
+		try{
+        	URI uri1 = URI.create(path.Path());
+			Database sqliteDB1 = DatabaseFactory.open(uri1);
+			Statement dt = sqliteDB1.createStatement(statement.DeleteTemporadaProducto(idporcategoria));
+			
+			dt.prepare();
+			dt.execute();
+			dt.close(); 
+			sqliteDB1.close();
+    	}catch (Exception e){
+ 			//Dialog.alert("error elements habits "+e.getMessage());
+ 		}
+		
+	}
 
 }
 	

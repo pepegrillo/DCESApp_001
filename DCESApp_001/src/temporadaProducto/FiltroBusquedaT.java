@@ -1,4 +1,4 @@
-package observatorioPrecio;
+package temporadaProducto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -22,6 +22,7 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
 import pck_WS.FiltroCx;
+import pck_WS.TemporadaFiltroCx;
 
 import com.samples.toolkit.ui.component.ListStyleButtonField;
 
@@ -29,7 +30,7 @@ import configurations.ConexionController;
 import estilos.Estilos;
 import estilos.Estilos.ORichTextField;
 
-public class FiltroBusqueda extends Estilos implements FieldChangeListener {
+public class FiltroBusquedaT extends Estilos implements FieldChangeListener {
 	
 	int tFuente;
 	Font fLite;
@@ -54,7 +55,7 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
 	
-	FiltroCx filtro;
+	TemporadaFiltroCx filtro;
 	String idCategoria;
 	String idProductoMain;
 	String idMunicipio;
@@ -71,9 +72,9 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 	int noventa = 90;
 	int diez = 10;
 	
-	public FiltroBusqueda(String IdCategoria, String IdProductoMain, String NombreArticulo) {
+	public FiltroBusquedaT(String IdCategoria, String IdProductoMain, String NombreArticulo) {
 		
-		filtro = new FiltroCx(IdCategoria);
+		filtro = new TemporadaFiltroCx(IdCategoria);
 		idCategoria    = IdCategoria;
 		idProductoMain = IdProductoMain;
 		nombrearticulo = NombreArticulo;
@@ -354,7 +355,7 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 			if( vLista.elementAt(j)== field ){
 				idMunicipio = filtro.IdMunicipio.elementAt(j).toString();
 				//pushScreen(new MenuMain());
-				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda2(idCategoria, idProductoMain, idMunicipio, nombrearticulo));
+				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda2T(idCategoria, idProductoMain, idMunicipio, nombrearticulo));
 			}
 		}
 	}

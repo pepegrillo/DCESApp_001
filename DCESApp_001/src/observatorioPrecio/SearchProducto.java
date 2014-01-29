@@ -50,6 +50,7 @@ public class SearchProducto extends Estilos implements FieldChangeListener {
 	
 	String idCategoria;
 	String IdProductoMain;
+	String NombreArticulo;
 	
 	SearchProductoCx searchproducto;
 	//personalizacion
@@ -220,8 +221,9 @@ public class SearchProducto extends Estilos implements FieldChangeListener {
 		for(int j=0;j<=vLista.size()-1;j++){
 			if( vLista.elementAt(j)== field ){
 				IdProductoMain = searchproducto.IdProducto.elementAt(j).toString();
+				NombreArticulo = searchproducto.Nombre.elementAt(j).toString();
 				//pushScreen(new MenuMain());
-				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda(idCategoria, IdProductoMain));
+				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda(idCategoria, IdProductoMain, NombreArticulo));
 			}
 		}
 		

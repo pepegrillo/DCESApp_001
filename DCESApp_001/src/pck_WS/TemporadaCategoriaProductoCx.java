@@ -27,7 +27,7 @@ import configurations.ConexionController;
 import configurations.DbSql;
 import configurations.Strings;
 
-public class CategoriaProductoCx {
+public class TemporadaCategoriaProductoCx {
 	
 	private String connectionURL;
 	private HttpConnection conn;
@@ -50,12 +50,12 @@ public class CategoriaProductoCx {
 	
 	CategoriaProductoSG categoria = new CategoriaProductoSG();
 	
-	public CategoriaProductoCx(){
+	public TemporadaCategoriaProductoCx(){
 		
 		try{
 			URI uri = URI.create(path.Path());
 			Database sqliteDB = DatabaseFactory.open(uri);
-			Statement se = sqliteDB.createStatement(statement.SelectCategoriaProducto());
+			Statement se = sqliteDB.createStatement(statement.SelectTemporadaCategoriaProducto());
 			se.prepare();
 			Cursor c = se.getCursor();
 			Row r;
@@ -105,7 +105,7 @@ public class CategoriaProductoCx {
 	public void descargarDatos(){
 		try{
 			
-			connectionURL = Strings.HTTP_SW+"getCategorias/0"+tipoConexion;
+			connectionURL = Strings.HTTP_SW+"getCategorias/1"+tipoConexion;
 
 	        conn = (HttpConnection) Connector.open(connectionURL);
 	        conn.setRequestProperty("Content-Type","application/json");
@@ -143,7 +143,7 @@ public class CategoriaProductoCx {
 		            	try{
 			            	URI uri1 = URI.create(path.Path());
 							Database sqliteDB1 = DatabaseFactory.open(uri1);
-							Statement in = sqliteDB1.createStatement(statement.InsertCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
+							Statement in = sqliteDB1.createStatement(statement.InsertTemporadaCategoriaProducto(childJSONObject.getString("idCategoria"),childJSONObject.getString("categoria")));
 							//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
 							in.prepare();
 							in.execute();
@@ -204,7 +204,7 @@ public class CategoriaProductoCx {
 				URI uri = URI.create(path.Path());
 				Database sqliteDB = DatabaseFactory.open(uri);
 
-	          		Statement selectR = sqliteDB.createStatement(statement.SelectCategoriaProducto());
+	          		Statement selectR = sqliteDB.createStatement(statement.SelectTemporadaCategoriaProducto());
 	          		selectR.prepare();
 	                       Cursor cursorR = selectR.getCursor();
 	                       Row rc;
@@ -235,7 +235,7 @@ public class CategoriaProductoCx {
 			try{
             	URI uri1 = URI.create(path.Path());
 				Database sqliteDB1 = DatabaseFactory.open(uri1);
-				Statement dt = sqliteDB1.createStatement(statement.DeleteCategoriaProducto());
+				Statement dt = sqliteDB1.createStatement(statement.DeleteTemporadaCategoriaProducto());
 				//HAAAY SOY EL HIJO DE LAS MIL REVERENDAS PUTAS
 				dt.prepare();
 				dt.execute();

@@ -43,6 +43,8 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 	
 	Vector vLista   = new Vector();
 	
+	String idEstablecimiento;
+	String idproducto;
 	String producto;
 	String marca;
 	String presentacion;
@@ -66,9 +68,11 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 	int noventa = 90;
 	int diez = 10;
 	
-	public ProductoFiltro(String idMunicipio, String selectedValue1, String selectedValue2, String selectedValue3){
+	public ProductoFiltro(String idMunicipio, String idProducto, String selectedValue2, String selectedValue3, String NombreArticulo){
 		
-		productofiltro = new ProductoFiltroCx(idMunicipio, selectedValue1, selectedValue2, selectedValue3);
+		productofiltro = new ProductoFiltroCx(idMunicipio, idProducto, selectedValue2, selectedValue3);
+		
+		idEstablecimiento = selectedValue2;
 		
 		if (Display.getWidth() == 320) {
 
@@ -143,7 +147,7 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 			logoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0xe68241, 0xe68241,0xd16f2f, 0xd16f2f));
 			logoHfm.setMargin(0, 0, 0, 0);
 
-			ColorRichText emailCrt = new ColorRichText(Strings.FILTROB+idMunicipio+selectedValue1+selectedValue2+selectedValue3,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
+			ColorRichText emailCrt = new ColorRichText(NombreArticulo,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
 			emailCrt.setFont(fTitle);
 			emailCrt.setMargin(veinticinco, 0, veinticinco, 0);
 
@@ -175,7 +179,7 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 					//contentListProducto.setBorder(BorderFactory.createRoundedBorder(new XYEdges(5,5,5,5)));
 	
 			        
-			        vLista.addElement(new ListStyleButtonField(null,""+productofiltro.Producto.elementAt(i) , arrow,DrawStyle.ELLIPSIS){
+			        vLista.addElement(new ListStyleButtonField(null,""+productofiltro.Nombre.elementAt(i) , arrow,DrawStyle.ELLIPSIS){
 			            public int getPreferredWidth(){return Display.getWidth()-cuarenta;}
 			            public int getPreferredHeight(){return noventa;}
 			            public void layout( int maxWidth, int maxHeight )
@@ -220,6 +224,7 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 		for(int j=0;j<=vLista.size()-1;j++){
 			if( vLista.elementAt(j)== field ){
 				//pushScreen(new MenuMain());
+				idproducto   = productofiltro.IdProducto.elementAt(j).toString();
 				producto	 = productofiltro.Producto.elementAt(j).toString();
 				marca    	 = productofiltro.Marca.elementAt(j).toString();
 				presentacion = productofiltro.Presentacion.elementAt(j).toString();
@@ -230,7 +235,7 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 				longitud	 = productofiltro.Longitud.elementAt(j).toString();
 				fecha		 = productofiltro.Fecha.elementAt(j).toString();
 				
-				UiApplication.getUiApplication().pushScreen(new PerfilProducto(producto, marca, presentacion, precio, preciopromo, nombre, latitud, longitud, fecha));
+				UiApplication.getUiApplication().pushScreen(new PerfilProducto(idEstablecimiento, idproducto, producto, marca, presentacion, precio, preciopromo, nombre, latitud, longitud, fecha));
 			}
 		}
 		

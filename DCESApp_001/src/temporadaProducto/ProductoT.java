@@ -1,8 +1,6 @@
-package favoritos;
+package temporadaProducto;
 
 import java.util.Vector;
-
-import pck_WS.FavoritoCx;
 
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
@@ -21,15 +19,15 @@ import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
+import pck_WS.TemporadaProductoCx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 import com.samples.toolkit.ui.component.ListStyleButtonField;
 
 import configurations.Strings;
 import estilos.Estilos;
-import estilos.Estilos.ORichTextField;
 
-public class FavoritoProducto extends Estilos implements FieldChangeListener {
+public class ProductoT extends Estilos implements FieldChangeListener {
 	
 	int tFuente;
 	Font fLite;
@@ -46,18 +44,11 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 	
 	Vector vLista   = new Vector();
 	
-	String hashkey;
-	String idproducto;
-	String producto;
-	String marca;
-	String presentacion;
-	String establecimiento;
-	String precioproducto;
-	String preciopromocion;
-	String latitud;
-	String longitud;
-	String fechasondeo;
+	String idCategoria;
+	String IdProductoMain;
+	String NombreArticulo;
 	
+	TemporadaProductoCx producto;
 	//personalizacion
 	int veinticinco = 25;
 	int sesenta = 60;
@@ -73,12 +64,10 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 	int alturatxt = 25;
 	int txtSearchWidth = 100;
 	
-	FavoritoCx favoritos = new FavoritoCx();
-	
-	public FavoritoProducto(){
+	public ProductoT(String idcategoria){
+		idCategoria = idcategoria;
 		
-		
-		
+		producto = new TemporadaProductoCx(idCategoria);
 		if (Display.getWidth() == 320) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_320.png")));
@@ -89,7 +78,7 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			arrow  = Bitmap.getBitmapResource( "arrow_320.png" );
 			ocho = 3;
 			bgProducto = Bitmap.getBitmapResource("bgProduct_320.png");
-			cinco = 0;
+			cinco = 2;
 			noventa = 45;
 			trecientos = 150;
 			seisientos = 290;
@@ -97,7 +86,7 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			quince = 7;
 			diez = 5;
 			cuarenta = 30;
-			alturatxt = 20;
+			alturatxt = 15;
 			txtSearchWidth = 73;
 			btnSearch	= Bitmap.getBitmapResource("btnSearch_320.png");
 			btnSearch1 	= Bitmap.getBitmapResource("btnSearch1_320.png");
@@ -151,29 +140,28 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 		if (Display.getWidth() == 640) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background.png")));
+            cinco = 5;
             
 			tFuente = 30;
 			tFuente2 = 40;
 			arrow  = Bitmap.getBitmapResource( "arrow.png" );
+			alturatxt = 25;
 			btnSearch	= Bitmap.getBitmapResource("btnSearch.png");
 			btnSearch1 	= Bitmap.getBitmapResource("btnSearch1.png");
 		}
-		
 		try{
 			
+
 			FontFamily ffFont1 = FontFamily.forName("Arial");
 			fLite = ffFont1.getFont(Font.SANS_SERIF_STYLE, tFuente);
 			fTitle = ffFont1.getFont(Font.SANS_SERIF_STYLE, tFuente2);
-			
-			
-			//getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background.png")));
 			
 			
 			VerticalFieldManager logoHfm = new VerticalFieldManager(VerticalFieldManager.FIELD_HCENTER);
 			logoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0xe68241, 0xe68241,0xd16f2f, 0xd16f2f));
 			logoHfm.setMargin(0, 0, 0, 0);
 
-			ColorRichText emailCrt = new ColorRichText(Strings.FAVORITOS,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
+			ColorRichText emailCrt = new ColorRichText(Strings.PRODUCTO+idcategoria,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
 			emailCrt.setFont(fTitle);
 			emailCrt.setMargin(veinticinco, 0, veinticinco, 0);
 
@@ -202,13 +190,14 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			txtSearch.setFont(fLite);
 			footerLogoHfm.add(txtSearch);
 			
+	
             BitmapButtonField btnSearchUser = new BitmapButtonField(btnSearch,btnSearch1,Field.FIELD_HCENTER);
             btnSearchUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
     				if (txtSearch.getText().equals("")){
     					Dialog.alert("Ingresa una palabra de búsqueda.");
     				}else{
-    					//UiApplication.getUiApplication().pushScreen(new SearchProducto(idCategoria, txtSearch.getText()));
+    					UiApplication.getUiApplication().pushScreen(new SearchProductoT(idCategoria, txtSearch.getText()));
     				}
     			}
             });     
@@ -225,10 +214,11 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			//Lista Producto
 			VerticalField allContentListaProducto = new VerticalField(Display.getWidth(),trecientos,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
 			
-			if (favoritos.errorCode.equals("0")) {
+			if (producto.errorCode.equals("0")){
 			
-				for (int i = 0; i < favoritos.IdProducto.size(); i++){
-										
+				for (int i = 0; i < producto.IdProducto.size(); i++){
+	
+					
 					HorizontalField contentListProducto = new HorizontalField(seisientos, cientodiez, HorizontalField.FIELD_HCENTER);
 					//contentListProducto.setBackground((Background) vColores.elementAt(i));
 					
@@ -238,7 +228,7 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 					//contentListProducto.setBorder(BorderFactory.createRoundedBorder(new XYEdges(5,5,5,5)));
 	
 			        
-			        vLista.addElement(new ListStyleButtonField(null,""+favoritos.Nombre.elementAt(i) , arrow,DrawStyle.ELLIPSIS){
+			        vLista.addElement(new ListStyleButtonField(null,producto.Nombre.elementAt(i).toString() , arrow,DrawStyle.ELLIPSIS){
 			            public int getPreferredWidth(){return Display.getWidth()-cuarenta;}
 			            public int getPreferredHeight(){return noventa;}
 			            public void layout( int maxWidth, int maxHeight )
@@ -247,7 +237,7 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			                setExtent(getPreferredWidth(), getPreferredHeight());
 			            }
 			            public void paint(Graphics g)
-						{      
+						{
 							g.setColor(0xffffff);
 							super.paint(g);
 						}
@@ -260,17 +250,18 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 		    	    allContentListaProducto.add(contentListProducto);
 				}
 			}else{
-				ORichTextField errorM = new ORichTextField(favoritos.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
+				ORichTextField errorM = new ORichTextField(producto.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
 				errorM.setFont(fTitle);
-				errorM.setMargin(20, 0, 5, 20);
+				//errorM.setMargin(20, 0, 5, 20);
 				allContentListaProducto.add(errorM);
 			}
+	        
 	        add(allContentListaProducto);
 			
 			
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()+producto.errorMessage);
 			add(new RichTextField(e.getMessage()));
 		}
 		
@@ -281,19 +272,10 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 		
 		for(int j=0;j<=vLista.size()-1;j++){
 			if( vLista.elementAt(j)== field ){
+				IdProductoMain = producto.IdProducto.elementAt(j).toString();
+				NombreArticulo = producto.Nombre.elementAt(j).toString();
 				//pushScreen(new MenuMain());
-				hashkey				= favoritos.hashKey;
-				idproducto			= favoritos.IdProducto.elementAt(j).toString();
-				producto			= favoritos.Producto.elementAt(j).toString();
-				marca				= favoritos.Marca.elementAt(j).toString();
-				presentacion		= favoritos.Presentacion.elementAt(j).toString();
-				establecimiento		= favoritos.Nombre.elementAt(j).toString();
-				precioproducto		= favoritos.Precio.elementAt(j).toString();
-				preciopromocion		= favoritos.PrecioPromo.elementAt(j).toString();
-				latitud				= favoritos.Latitud.elementAt(j).toString();
-				longitud			= favoritos.Longitud.elementAt(j).toString();
-				fechasondeo			= favoritos.Fecha.elementAt(j).toString();
-				UiApplication.getUiApplication().pushScreen(new PerfilProductoF(hashkey, idproducto, producto, marca, presentacion, establecimiento, precioproducto, preciopromocion, latitud, longitud, fechasondeo));
+				UiApplication.getUiApplication().pushScreen(new FiltroBusquedaT(idCategoria, IdProductoMain, NombreArticulo));
 			}
 		}
 		

@@ -5,7 +5,6 @@ import java.util.Vector;
 import net.rim.device.api.servicebook.ServiceBook;
 import net.rim.device.api.servicebook.ServiceRecord;
 import net.rim.device.api.system.CoverageInfo;
-import net.rim.device.api.system.DeviceInfo;
 import net.rim.device.api.system.WLANInfo;
 
 

@@ -49,6 +49,7 @@ public class Producto extends Estilos implements FieldChangeListener {
 	
 	String idCategoria;
 	String IdProductoMain;
+	String NombreArticulo;
 	
 	ProductoCx producto;
 	//personalizacion
@@ -141,10 +142,12 @@ public class Producto extends Estilos implements FieldChangeListener {
 		if (Display.getWidth() == 640) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background.png")));
+            cinco = 5;
             
-			tFuente = 35;
+			tFuente = 30;
 			tFuente2 = 40;
 			arrow  = Bitmap.getBitmapResource( "arrow.png" );
+			alturatxt = 25;
 			btnSearch	= Bitmap.getBitmapResource("btnSearch.png");
 			btnSearch1 	= Bitmap.getBitmapResource("btnSearch1.png");
 		}
@@ -272,8 +275,9 @@ public class Producto extends Estilos implements FieldChangeListener {
 		for(int j=0;j<=vLista.size()-1;j++){
 			if( vLista.elementAt(j)== field ){
 				IdProductoMain = producto.IdProducto.elementAt(j).toString();
+				NombreArticulo = producto.Nombre.elementAt(j).toString();
 				//pushScreen(new MenuMain());
-				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda(idCategoria, IdProductoMain));
+				UiApplication.getUiApplication().pushScreen(new FiltroBusqueda(idCategoria, IdProductoMain, NombreArticulo));
 			}
 		}
 		
