@@ -13,8 +13,11 @@ import net.rim.device.api.database.DatabaseFactory;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Status;
+
+import observatorioPrecio.CategoriaProducto;
 
 import org.json.me.JSONObject;
 
@@ -42,11 +45,17 @@ public class FavoritoPx {
 	public String errorCode    = new String();
 	public String errorMessage = new String();
 	
+	public String categoriasValidate = new String();
+	
 	String temporalUser;
+	String HashKey;
+	int incremento = 0;
 	
 	FavoritoSG favoritos = new FavoritoSG();
 	
-	public void guardarFavoritos(String HashKey, String idProducto, String idEstablecimiento, String Nombre){
+	public void guardarFavoritos(String idProducto, String idEstablecimiento, String Nombre){
+		
+		//verificarDatosBD();
 		
 		if(getTipo.equals("wifi") || getTipo.equals("BIBS")){
 			
@@ -63,6 +72,7 @@ public class FavoritoPx {
           		while(cursorR.next()){
           			rc = cursorR.getRow();
           			temporalUser = rc.getString(0);
+          			incremento ++;
           		}
           		selectR.close();
           		cursorR.close();
@@ -72,7 +82,7 @@ public class FavoritoPx {
 				// TODO: handle exception
 			}
         	
-			if (!temporalUser.equals("00")){
+			if (incremento == 0){
 			
 	        	Status.show("Guardando...");
 	        	
@@ -93,7 +103,7 @@ public class FavoritoPx {
 		                       cursorR.close();
 		                       sqliteDB.close();
 		                       
-		                       String url = Strings.HTTP_SW+"postElementosFavoritos"+tipoConexion;
+		                       	String url = Strings.HTTP_SW+"postElementosFavoritos"+tipoConexion;
 			   					String json = "'hashKey':'"+HashKey+"'," +
 			   								"'idArticulo':'"+idProducto+"'," +
 			   								"'idEstablecimiento':'"+idEstablecimiento+"'";
@@ -247,6 +257,51 @@ public class FavoritoPx {
 		}
 		
 	}
+	
+	/*public void verificarDatosBD() {
+		
+		try{
+			
+			URI uri = URI.create(path.Path());
+			Database sqliteDB = DatabaseFactory.open(uri);
+
+      		Statement selectR = sqliteDB.createStatement(statement.SelectCategoriaProducto());
+      		selectR.prepare();
+      		Cursor cursorR = selectR.getCursor();
+      		Row rc;
+      		//int i = 0;
+      		while(cursorR.next()){
+      			rc = cursorR.getRow();
+      			incremento ++;
+      		}
+      		selectR.close();
+      		cursorR.close();
+      		sqliteDB.close();
+			
+      		if ((getTipo.equals("wifi") || getTipo.equals("BIBS")) && (incremento == 0)) {
+      			//categoriasValidate = "1";
+      			UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+      		} else if ((getTipo.equals("wifi") || getTipo.equals("BIBS")) && (incremento > 0)) {
+      			//categoriasValidate = "1";
+      			UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+      		} else if ((getTipo.equals("error")) && (incremento > 0)) {
+      			//categoriasValidate = "1";
+      			UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+      		} else if ((getTipo.equals("error")) && (incremento == 0)) {
+      			//categoriasValidate = "0";
+      			Dialog.alert("NO PASAR");
+      		}
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+			categoriasValidate = "0";
+			Dialog.alert("CATCH");
+		}
+		
+		//favoritos.setCategoriasValidate(categoriasValidate);
+		
+	}*/
+	
 }
 	
 

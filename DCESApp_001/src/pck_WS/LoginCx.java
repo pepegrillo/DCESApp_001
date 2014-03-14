@@ -8,16 +8,13 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
-import net.rim.device.api.database.Cursor;
 import net.rim.device.api.database.Database;
 import net.rim.device.api.database.DatabaseFactory;
-import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
-import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.component.Status;
 
-import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
 import pck_SG.FiltroSG;
@@ -45,7 +42,7 @@ public class LoginCx {
 	
 	DbSql path = new DbSql();
 	DbSql statement = new DbSql();
-	private int incremento;
+	//private int incremento;
 	
 	FiltroSG iniciosesion = new FiltroSG();
 	
@@ -85,7 +82,7 @@ public class LoginCx {
 	            JSONObject objeto2 =  new  JSONObject ( resultado1 );
 	            errorCode    = objeto2.getString("errorCode");
 	            errorMessage = objeto2.getString("errorMessage");
-	            
+	            Status.show("Iniciando sesión...");
 	            if(errorCode.equals("0")){
 	            	
 	            	String mensaje     = objeto2.getString("msg");
@@ -100,7 +97,7 @@ public class LoginCx {
 	            	String sexo   	   = objeto4.getString("sexo");
 	            	String correo      = objeto4.getString("correo");
 	            	String hashkey     = objeto4.getString("hashKey");
-	            	Dialog.alert(idmiembro+nombre+apellido+sexo+correo+hashkey);
+	            	//Dialog.alert(idmiembro+nombre+apellido+sexo+correo+hashkey);
 	            	
 	            	try{
 	            		URI uri1 = URI.create(path.Path());
@@ -155,7 +152,8 @@ public class LoginCx {
 	            
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	Dialog.alert("descargar datos "+e.getMessage());
+	        	//Dialog.alert("descargar datos "+e.getMessage());
+	        	errorMessage = "Algo inesperado ha sucedido!.";
 			}finally{
 				if(conn != null)
 					try {

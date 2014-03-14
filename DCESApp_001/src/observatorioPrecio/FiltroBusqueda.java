@@ -1,10 +1,6 @@
 package observatorioPrecio;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Vector;
-
-import javax.microedition.io.HttpConnection;
 
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
@@ -18,6 +14,7 @@ import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.XYEdges;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
@@ -27,7 +24,6 @@ import com.samples.toolkit.ui.component.ListStyleButtonField;
 
 import configurations.ConexionController;
 import estilos.Estilos;
-import estilos.Estilos.ORichTextField;
 
 public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 	
@@ -45,11 +41,11 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 	BitmapField logoListaf;
 	HorizontalField contentListCategoria;
 	
-	private String connectionURL;
+	/*private String connectionURL;
 	private HttpConnection conn;
 	private InputStream is;
 	private ByteArrayOutputStream bos;
-	private String response;
+	private String response;*/
 	
 	String tipoConexion = ConexionController.getConnectionString()[0];
 	String getTipo = ConexionController.getConnectionString()[1];
@@ -175,11 +171,9 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 			//descargarDatos();
 			
 			
-			
+			if (filtro.errorCode.equals("0")){
 			//Lista Categoria
 			VerticalField allContentListaCategoria = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (filtro.errorCode.equals("0")){
 			
 				for (int i = 0; i < filtro.IdMunicipio.size(); i++){
 	
@@ -214,15 +208,14 @@ public class FiltroBusqueda extends Estilos implements FieldChangeListener {
 		    	    contentListCategoria.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaCategoria.add(contentListCategoria);
 				}
+				add(allContentListaCategoria);
 			}else{
-				ORichTextField errorM = new ORichTextField(filtro.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				//errorM.setMargin(20, 0, 5, 20);
-				allContentListaCategoria.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(filtro.errorMessage)));
+				
+				add(errorHfm);
 			}
 	        
-	        add(allContentListaCategoria);
-			
 			
 		}catch (Exception e) {
 			System.out.println(e.getMessage());

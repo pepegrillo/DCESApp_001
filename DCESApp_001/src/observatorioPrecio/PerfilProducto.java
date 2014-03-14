@@ -1,5 +1,6 @@
 package observatorioPrecio;
 
+import mypackage.MenuMain;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
@@ -8,9 +9,14 @@ import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.FontFamily;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.component.Status;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
+import net.rim.device.api.ui.image.Image;
+import net.rim.device.api.ui.image.ImageFactory;
+import net.rim.device.api.util.StringProvider;
 import pck_WS.FavoritoPx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
@@ -152,13 +158,13 @@ public class PerfilProducto extends Estilos {
 			detalleCrt3.setFont(fDetalles);
 			detalleCrt3.setMargin(20, 0, 5, 20);
 			
-			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"+precio, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"+precio+"        "+"Promedio $"+preciopromo, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			detalleGreenCrt.setFont(fDetalles);
 			detalleGreenCrt.setMargin(20, 0, 5, 20);
 			
-			GRichTextField detalleGreenCrt2 = new GRichTextField("Promedio $"+preciopromo,  RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			/*GRichTextField detalleGreenCrt2 = new GRichTextField("Promedio $"+preciopromo,  RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			detalleGreenCrt2.setFont(fDetalles);
-			detalleGreenCrt2.setMargin(20, 0, 5, 20);
+			detalleGreenCrt2.setMargin(20, 0, 5, 20);*/
 			
 			allContentDetalle.add(tituloCrt);
 			allContentDetalle.add(detalleCrt);
@@ -166,7 +172,7 @@ public class PerfilProducto extends Estilos {
 			allContentDetalle.add(detalleCrt2);
 			allContentDetalle.add(detalleCrt3);
 			allContentDetalle.add(detalleGreenCrt);
-			allContentDetalle.add(detalleGreenCrt2);
+			//allContentDetalle.add(detalleGreenCrt2);
 	        
 
             BitmapButtonField btnAceptarRegUser = new BitmapButtonField(btnMapa,btnMapa1,Field.FIELD_HCENTER);
@@ -188,19 +194,19 @@ public class PerfilProducto extends Estilos {
 			add(new RichTextField(e.getMessage()));
 		}
 		
-		//Menu Item
-		addMenuItem(itemFavorito);
+		// Menu Item
+		MenuItem myItem = new MenuItem(new StringProvider("Guardar en Favoritos"), 110, 0){
+		    public void run(){
+		    	
+		    	favoritos.guardarFavoritos(idProducto, idEstablecimiento, Nombre);
+		        
+		    }
+		};
+		Image iconoHabito = ImageFactory.createImage(Bitmap.getBitmapResource("imgMewe2.png"));
+		myItem.setIcon(iconoHabito);
+		
+		addMenuItem(myItem);
 		
 	}
-
-	private MenuItem itemFavorito = new MenuItem("Guardar Favoritos", 110, 10)
-    {
-        public void run()
-        {
-        	
-        	favoritos.guardarFavoritos(HashKey, idProducto, idEstablecimiento, Nombre);
-            
-        }
-    };
 
 }

@@ -18,6 +18,7 @@ import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.XYEdges;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
@@ -29,6 +30,7 @@ import com.samples.toolkit.ui.component.ListStyleButtonField;
 import configurations.ConexionController;
 import estilos.Estilos;
 import estilos.Estilos.ORichTextField;
+import estilos.Estilos.VerticalField;
 
 public class FiltroBusquedaT extends Estilos implements FieldChangeListener {
 	
@@ -176,12 +178,10 @@ public class FiltroBusquedaT extends Estilos implements FieldChangeListener {
 			//descargarDatos();
 			
 			
-			
+			if (filtro.errorCode.equals("0")){
 			//Lista Categoria
 			VerticalField allContentListaCategoria = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (filtro.errorCode.equals("0")){
-			
+						
 				for (int i = 0; i < filtro.IdMunicipio.size(); i++){
 	
 					
@@ -215,14 +215,15 @@ public class FiltroBusquedaT extends Estilos implements FieldChangeListener {
 		    	    contentListCategoria.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaCategoria.add(contentListCategoria);
 				}
+				add(allContentListaCategoria);
 			}else{
-				ORichTextField errorM = new ORichTextField(filtro.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				//errorM.setMargin(20, 0, 5, 20);
-				allContentListaCategoria.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(filtro.errorMessage)));
+				
+				add(errorHfm);
 			}
 	        
-	        add(allContentListaCategoria);
+	        
 			
 			
 		}catch (Exception e) {

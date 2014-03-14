@@ -22,6 +22,7 @@ import net.rim.device.api.ui.component.EmailAddressEditField;
 import net.rim.device.api.ui.component.PasswordEditField;
 import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.component.Status;
+import net.rim.device.api.ui.component.TextField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
@@ -58,8 +59,8 @@ public class CambiarPw extends Estilos {
 	Bitmap btnAceptarReg 	= Bitmap.getBitmapResource("btnAceptarReg.png");
 	Bitmap btnAceptarReg1 	= Bitmap.getBitmapResource("btnAceptarReg1.png");
 	
-	private String genero;
-	private LabeledSwitch generoSwitch;
+	//private String genero;
+	//private LabeledSwitch generoSwitch;
 	
 	public String hashKey    = new String();
 	
@@ -175,7 +176,7 @@ public class CambiarPw extends Estilos {
 			pwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(pwCrt);
 
-			txtPass = new PasswordEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtPass = new PasswordEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -192,7 +193,7 @@ public class CambiarPw extends Estilos {
 			rePwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(rePwCrt);
 
-			txtRePass = new PasswordEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtRePass = new PasswordEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -236,7 +237,7 @@ public class CambiarPw extends Estilos {
 		    					String url = "http://observatoriodeprecios.defensoria.gob.sv/ApiREST.php//v1/putCambiarClave/"+tipoConexion;
 		    					String json = "'hashKey'		: '"+hashKey+"'," +
 											"'clave'		: '"+Pw2+"'";
-		    					Dialog.alert(json);
+		    					//Dialog.alert(json);
 		    					String response = request.PUT(url,json);
 		    					
 		    					JSONObject objeto1 =  new  JSONObject ( response );
@@ -245,7 +246,7 @@ public class CambiarPw extends Estilos {
 		    		            response  = objeto2.getString("errorCode");
 		    		            
 		    		            if(response.equals("0")){
-		    		            	Dialog.alert(objeto2.getString("errorMessage"));
+		    		            	//Dialog.alert(objeto2.getString("errorMessage"));
 		    		            	new LoginPx();
 		    		            	UiApplication.getUiApplication().pushScreen(new MyScreen());
 		    		            }else{

@@ -19,6 +19,7 @@ import net.rim.device.api.ui.component.EmailAddressEditField;
 import net.rim.device.api.ui.component.PasswordEditField;
 import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.component.Status;
+import net.rim.device.api.ui.component.TextField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
@@ -29,6 +30,7 @@ import configurations.ConexionController;
 import configurations.Encode;
 import configurations.Metodo;
 import configurations.Strings;
+import configurations.ValidatorEmail;
 import estilos.Estilos;
 import estilos.JustifiedHorizontalFieldManager;
 import estilos.LabeledSwitch;
@@ -49,8 +51,14 @@ public class registroUser extends Estilos {
 	BasicEditField txtName;
 	BasicEditField txtLastName;
 	EmailAddressEditField txtEmails;
+	String emailActivate;
 	PasswordEditField txtPass;
 	PasswordEditField txtRePass;
+	
+	Bitmap switchOn = Bitmap.getBitmapResource( "switch_left.png" );
+	Bitmap switchOff = Bitmap.getBitmapResource( "switch_right.png" );
+	Bitmap switchOnFocus = Bitmap.getBitmapResource( "switch_left_focus.png" );
+	Bitmap switchOffFocus = Bitmap.getBitmapResource( "switch_right_focus.png" );
 	
 	Bitmap btnAceptarReg 	= Bitmap.getBitmapResource("btnAceptarReg.png");
 	Bitmap btnAceptarReg1 	= Bitmap.getBitmapResource("btnAceptarReg1.png");
@@ -65,6 +73,8 @@ public class registroUser extends Estilos {
 	int cincuenta	= 50;
 	int heightScroll = 343;
 	
+	ValidatorEmail validatoremail = new ValidatorEmail();
+	
 	public registroUser() {
 				
 		if (Display.getWidth() == 320) {
@@ -73,6 +83,10 @@ public class registroUser extends Estilos {
 			diez 	= 5;
 			veinte 	= 10;
 			cincuenta = 20;
+			switchOn = Bitmap.getBitmapResource( "switch_left_320.png" );
+			switchOff = Bitmap.getBitmapResource( "switch_right_320.png" );
+			switchOnFocus = Bitmap.getBitmapResource( "switch_left_focus_320.png" );
+			switchOffFocus = Bitmap.getBitmapResource( "switch_right_focus_320.png" );
 			btnAceptarReg 	= Bitmap.getBitmapResource("btnAceptarReg_320.png");
 			btnAceptarReg1 	= Bitmap.getBitmapResource("btnAceptarReg1_320.png");
 			getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_320.png")));
@@ -86,6 +100,10 @@ public class registroUser extends Estilos {
 			diez 	= 5;
 			veinte 	= 20;
 			cincuenta = 20;
+			switchOn = Bitmap.getBitmapResource( "switch_left_320.png" );
+			switchOff = Bitmap.getBitmapResource( "switch_right_320.png" );
+			switchOnFocus = Bitmap.getBitmapResource( "switch_left_focus_320.png" );
+			switchOffFocus = Bitmap.getBitmapResource( "switch_right_focus_320.png" );
 			btnAceptarReg 	= Bitmap.getBitmapResource("btnAceptarReg_360.png");
 			btnAceptarReg1 	= Bitmap.getBitmapResource("btnAceptarReg1_360.png");
 			getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_360.png")));
@@ -149,7 +167,7 @@ public class registroUser extends Estilos {
 			contentForm.add(nameCrt);
 			
 
-			txtName = new BasicEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtName = new BasicEditField("", "", 25, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -167,7 +185,7 @@ public class registroUser extends Estilos {
 			lastnameCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(lastnameCrt);
 
-			txtLastName = new BasicEditField("", "", 70, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtLastName = new BasicEditField("", "", 30, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -179,10 +197,6 @@ public class registroUser extends Estilos {
 			contentForm.add(txtLastName);
 			
 			
-			Bitmap switchOn = Bitmap.getBitmapResource( "switch_left.png" );
-			Bitmap switchOff = Bitmap.getBitmapResource( "switch_right.png" );
-			Bitmap switchOnFocus = Bitmap.getBitmapResource( "switch_left_focus.png" );
-			Bitmap switchOffFocus = Bitmap.getBitmapResource( "switch_right_focus.png" );
 			
 			ColorRichText generoCrt = new ColorRichText(Strings.GENERO, 0x9cbe4f, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			generoCrt.setFont(fLite);
@@ -200,7 +214,7 @@ public class registroUser extends Estilos {
 			emailsCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(emailsCrt);
 
-			txtEmails = new EmailAddressEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtEmails = new EmailAddressEditField("", "", 70, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -217,7 +231,7 @@ public class registroUser extends Estilos {
 			pwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(pwCrt);
 
-			txtPass = new PasswordEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtPass = new PasswordEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -234,7 +248,7 @@ public class registroUser extends Estilos {
 			rePwCrt.setMargin(veinte, 20, cinco, cincuenta);
 			contentForm.add(rePwCrt);
 
-			txtRePass = new PasswordEditField("", "", 200, BasicEditField.JUMP_FOCUS_AT_END) {
+			txtRePass = new PasswordEditField("", "", 50, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE) {
 				public void paint(Graphics g) {
 					g.setColor(0xFFF);
 					super.paint(g);
@@ -257,8 +271,18 @@ public class registroUser extends Estilos {
 	            			//Masculino
 	            			genero = "M";
 	            		}
-	    				if((txtName.getTextLength()>=3) && (txtLastName.getTextLength()>=3) && (txtEmails.getTextLength()>=10) && (txtPass.getTextLength()>=6) && ((txtPass.getText().equals(txtRePass.getText())))){
+    					
+						//Dialog.alert(""+validatoremail.validateEmailID(txtEmails.getText().toString()));
+						if (validatoremail.validateEmailID(txtEmails.getText().toString()) == true) {
+							emailActivate = txtEmails.getText().toString();
+							//Dialog.alert(emailActivate+" / "+validatoremail.validateEmailID(txtEmails.getText().toString()));
+						}/* else {
+							Status.show(Strings.VT_CAMPODIEZ);
+						}*/
+    					
+	    				if((txtName.getTextLength()>=3) && (txtLastName.getTextLength()>=3) && (validatoremail.validateEmailID(txtEmails.getText().toString()) == true) && (txtPass.getTextLength()>=6) && ((txtPass.getText().equals(txtRePass.getText())))){
 	    					//UiApplication.getUiApplication().pushScreen(new MyScreen());
+	    					//emailActivate = txtEmails.getText().toString();
 	    					Status.show("CAMPOS COMPLETADOS CORRECTAMENTE");
 	    					try{
 		    					Encode sha = new Encode();
@@ -268,7 +292,7 @@ public class registroUser extends Estilos {
 		    					String json = "'nombre'		: '"+txtName.getText().toString()+"'," +
 		    								"'apellido'		: '"+txtLastName.getText().toString()+"'," +
 											"'sexo'			: '"+genero.toString()+"'," +
-											"'correo'		: '"+txtEmails.getText().toString()+"'," +
+											"'correo'		: '"+emailActivate+"'," +
 											"'clave'		: '"+Pw+"'";
 		    					Dialog.alert(json);
 		    					String response = request.POST(url,json);
@@ -296,7 +320,7 @@ public class registroUser extends Estilos {
 							}
 	    				}else if (((txtName.getTextLength()<3) && (txtLastName.getTextLength()<3)) || ((txtName.getTextLength()<3) || (txtLastName.getTextLength()<3))){
 	    					Status.show(Strings.VT_CAMPOTRES);
-	    				}else if ((txtEmails.getTextLength()<10)){
+	    				}else if ((validatoremail.validateEmailID(txtEmails.getText().toString()) == false)){
 	    					Status.show(Strings.VT_CAMPODIEZ);
 	    				}else if ((txtPass.getTextLength()<6) && (txtRePass.getTextLength()<6)){
 	    					Status.show(Strings.VT_CAMPOPW);

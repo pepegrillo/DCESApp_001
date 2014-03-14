@@ -120,7 +120,7 @@ public class FiltroBusqueda2 extends Estilos {
 			logoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0xe68241, 0xe68241,0xd16f2f, 0xd16f2f));
 			logoHfm.setMargin(0, 0, 0, 0);
 
-			ColorRichText emailCrt = new ColorRichText(Strings.FILTRO+idCategoria, 0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
+			ColorRichText emailCrt = new ColorRichText(Strings.FILTRO, 0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
 			emailCrt.setFont(fTitle);
 			emailCrt.setMargin(veinticinco, 0, veinticinco, 0);
 

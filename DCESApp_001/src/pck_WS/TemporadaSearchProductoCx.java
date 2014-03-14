@@ -14,13 +14,12 @@ import net.rim.device.api.database.DatabaseFactory;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
-import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.component.Status;
 
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
-import pck_SG.ProductoSG;
 import pck_SG.SearchProductoSG;
 import configurations.ConexionController;
 import configurations.DbSql;
@@ -76,6 +75,18 @@ public class TemporadaSearchProductoCx {
 					descargarDatos(idCategoria,PalabraFiltro);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
+					if (Display.getWidth() == 320) {
+						errorMessage = "noInter_320.png";
+					}
+					if (Display.getWidth() == 360) {
+						errorMessage = "noInter_360.png";
+					}
+					if (Display.getWidth() == 480) {
+						errorMessage = "noInter_480.png";
+					}
+					if (Display.getWidth() == 640) {
+						errorMessage = "noInter.png";
+					}
 					//cargarDatos(idCategoria,PalabraFiltro);
 					//errorMessage = "Conectese a una red de internet para hacer una búsqueda actualizada.";
 					//onClose();
@@ -94,8 +105,18 @@ public class TemporadaSearchProductoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}
 		
 	}
@@ -153,8 +174,18 @@ public class TemporadaSearchProductoCx {
 							sqliteDB1.close();
 		            	}catch (Exception e) {
 							// TODO: handle exception
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo de nuevo más tarde";
+		            		if (Display.getWidth() == 320) {
+		        				errorMessage = "noData1_320.png";
+		        			}
+		        			if (Display.getWidth() == 360) {
+		        				errorMessage = "noData1_360.png";
+		        			}
+		        			if (Display.getWidth() == 480) {
+		        				errorMessage = "noData1_480.png";
+		        			}
+		        			if (Display.getWidth() == 640) {
+		        				errorMessage = "noData1.png";
+		        			}
 						}
 		            	
 		            	//IdProducto.addElement(childJSONObject.get("idProducto"));
@@ -165,14 +196,36 @@ public class TemporadaSearchProductoCx {
 	            	cargarDatos(idcategoria,palabrafiltro);
 	            	
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+	            	if (Display.getWidth() == 320) {
+	    				errorMessage = "noData1_320.png";
+	    			}
+	    			if (Display.getWidth() == 360) {
+	    				errorMessage = "noData1_360.png";
+	    			}
+	    			if (Display.getWidth() == 480) {
+	    				errorMessage = "noData1_480.png";
+	    			}
+	    			if (Display.getWidth() == 640) {
+	    				errorMessage = "noData1.png";
+	    			}
 	            	
 	            }
 	        }
 	            
 	        }catch (Exception e) {
 				// TODO: handle exception
+	        	if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				if(conn != null)
 					try {
@@ -228,9 +281,18 @@ public class TemporadaSearchProductoCx {
             errorCode = "0";
 		}catch (Exception e) {
 			// TODO: handle exception
-			Dialog.alert("cargar datos "+e.getMessage());
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}finally{
 			searchproducto.setIdProducto(IdProducto);
 			searchproducto.setNombre(Nombre);
@@ -253,6 +315,18 @@ public class TemporadaSearchProductoCx {
 			dt.close(); 
 			sqliteDB1.close();
     	}catch (Exception e){
+    		if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
  			//Dialog.alert("error elements habits "+e.getMessage());
  		}
 		

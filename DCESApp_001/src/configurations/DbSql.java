@@ -2,7 +2,7 @@ package configurations;
 
 public class DbSql {
 
-	private String version = "0.8.6.db";
+	private String version = "1.0.8.db";
 	private String path;
 	
 	public String Path(){
@@ -84,6 +84,25 @@ public class DbSql {
 		String TemporalUser = "CREATE TABLE IF NOT EXISTS TEMPORALUSER(idMiembro TEXT, nombre TEXT)";
 		return TemporalUser;
 	}
+	public String ListaCompras(){
+		String ListaCompras = "CREATE TABLE IF NOT EXISTS LISTACOMPRAS(idlista TEXT, nombrelista TEXT)";
+		return ListaCompras;
+	}
+	public String RutaCompras(){
+		String RutaCompras = "CREATE TABLE IF NOT EXISTS RUTACOMPRAS(idestablecimiento TEXT, nombreestablecimiento TEXT, idlista TEXT)";
+		return RutaCompras;
+	}
+	public String ProductoCompras(){
+		String ProductoCompras = "CREATE TABLE IF NOT EXISTS PRODUCTOCOMPRAS(idarticulo TEXT, nombrearticulo TEXT, marcaarticulo TEXT, idlista TEXT)";
+		return ProductoCompras;
+	}
+	public String AlertaCompras(){
+		String AlertaCompras = "CREATE TABLE IF NOT EXISTS ALERTACOMPRAS(idtiponotificacion TEXT, hora TEXT, dia TEXT, idlista TEXT, notificacion TEXT)";
+		return AlertaCompras;
+	}
+	
+	
+	
 	
 	/*Inserts*/
 	public String InsertUser(String idMiembro, String nombre, String apellido, String genero, String correo, String hashKey){
@@ -158,7 +177,7 @@ public class DbSql {
 	}
 	public String InsertFavorito(String hashKey, String idProducto, String producto, String marca,
 								String presentacion, String establecimiento, String precioProducto, String precioProm, String latitud, String longitud, String fechaSondeo){
-			String InsertFavorito = "INSERT INTO FAVORITO(hashkey,idproducto,producto,marca,presentacion,establecimiento,precioproducto,preciopromocion,latitud,longitud,fechasondeo)" +
+		String InsertFavorito = "INSERT INTO FAVORITO(hashkey,idproducto,producto,marca,presentacion,establecimiento,precioproducto,preciopromocion,latitud,longitud,fechasondeo)" +
 					"VALUES('"+hashKey+"','"+idProducto+"','"+producto+"','"+marca+"','"+presentacion+"','"+establecimiento+"','"+precioProducto+"','"+precioProm+"','"+latitud+"'" +
 				",'"+longitud+"','"+fechaSondeo+"')";
 		return InsertFavorito;
@@ -166,6 +185,22 @@ public class DbSql {
 	public String InsertTemporalUser(String idMiembro, String nombre){
 		String InsertTemporalUser = "INSERT INTO TEMPORALUSER(idMiembro,nombre)VALUES('"+idMiembro+"','"+nombre+"')";
 		return InsertTemporalUser;
+	}
+	public String InsertListaCompras(String idLista, String nombreLista){
+		String InsertListaCompras = "INSERT INTO LISTACOMPRAS(idlista,nombrelista)VALUES('"+idLista+"','"+nombreLista+"')";
+		return InsertListaCompras;
+	}
+	public String InsertRutaCompras(String idEstablecimiento, String nombreEstablecimiento, String idLista){
+		String InsertRutaCompras = "INSERT INTO RUTACOMPRAS(idestablecimiento,nombreestablecimiento,idlista)VALUES('"+idEstablecimiento+"','"+nombreEstablecimiento+"','"+idLista+"')";
+		return InsertRutaCompras;
+	}
+	public String InsertProductoCompras(String idarticulo, String nombrearticulo, String marcaarticulo, String idLista){
+		String InsertProductoCompras = "INSERT INTO PRODUCTOCOMPRAS(idarticulo,nombrearticulo,marcaarticulo,idlista)VALUES('"+idarticulo+"','"+nombrearticulo+"','"+marcaarticulo+"','"+idLista+"')";
+		return InsertProductoCompras;
+	}
+	public String InsertAlertaCompras(String idtiponotificacion, String hora, String dia, String idlista, String notificacion){
+		String InsertAlertaCompras = "INSERT INTO ALERTACOMPRAS(idtiponotificacion,hora,dia,idlista,notificacion)VALUES('"+idtiponotificacion+"','"+hora+"','"+dia+"','"+idlista+"','"+notificacion+"')";
+		return InsertAlertaCompras;
 	}
 	
 	
@@ -261,6 +296,29 @@ public class DbSql {
 		String SelectTemporalUser = "SELECT * FROM TEMPORALUSER";
 		return SelectTemporalUser;
 	}
+	public String SelectListaCompras(){
+		String SelectListaCompras = "SELECT * FROM LISTACOMPRAS";
+		return SelectListaCompras;
+	}
+	public String SelectRutaComprasValidar(String idLista){
+		String SelectRutaCompras = "SELECT * FROM RUTACOMPRAS WHERE idlista = '"+idLista+"'";
+		return SelectRutaCompras;
+	}
+	public String SelectProductoCompras(String idLista){
+		String SelectProductoCompras = "SELECT * FROM PRODUCTOCOMPRAS WHERE idlista = '"+idLista+"'";
+		return SelectProductoCompras;
+	}
+	public String SelectProductoComprasValidar(String idLista){
+		String SelectProductoComprasValidar = "SELECT * FROM PRODUCTOCOMPRAS WHERE idlista = '"+idLista+"'";
+		return SelectProductoComprasValidar;
+	}
+	public String SelectAlertaCompras(){
+		String SelectAlertaCompras = "SELECT * FROM ALERTACOMPRAS";
+		return SelectAlertaCompras;
+	}
+	
+	
+	
 	
 	
 	/*Deletes*/
@@ -337,5 +395,21 @@ public class DbSql {
 	public String DeleteTemporalUser(){
 		String DeleteTemporalUser = "DELETE FROM TEMPORALUSER";
 		return DeleteTemporalUser;
+	}
+	public String DeleteListaCompras(){
+		String DeleteListaCompras = "DELETE FROM LISTACOMPRAS";
+		return DeleteListaCompras;
+	}
+	public String DeleteRutaCompras(String idLista){
+		String DeleteRutaCompras = "DELETE FROM RUTACOMPRAS WHERE idlista = '"+idLista+"'";
+		return DeleteRutaCompras;
+	}
+	public String DeleteProductoCompras(String idLista){
+		String DeleteProductoCompras = "DELETE FROM PRODUCTOCOMPRAS WHERE idlista = '"+idLista+"'";
+		return DeleteProductoCompras;
+	}
+	public String DeleteAlertaCompras(String idtiponotificacion){
+		String DeleteAlertaCompras = "DELETE FROM ALERTACOMPRAS WHERE idtiponotificacion = '"+idtiponotificacion+"'";
+		return DeleteAlertaCompras;
 	}
 }

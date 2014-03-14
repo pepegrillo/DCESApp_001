@@ -4,14 +4,17 @@ import net.rim.device.api.browser.field2.BrowserField;
 import net.rim.device.api.browser.field2.BrowserFieldConfig;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.FontFamily;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import configurations.Strings;
 import estilos.Estilos;
+import estilos.Estilos.VerticalField;
 
 public class VerMapa extends Estilos {
 	
@@ -117,9 +120,10 @@ public class VerMapa extends Estilos {
 				allContentMap.add(browser);
 				
 			}else{
-				BitmapField imagenCoo = new BitmapField(
-				Bitmap.getBitmapResource("logo.png"), BitmapField.FIELD_HCENTER);
-				allContentMap.add(imagenCoo);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("noData1.png")));
+				
+				add(errorHfm);
 			}
 			
 			

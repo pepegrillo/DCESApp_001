@@ -8,21 +8,19 @@ import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
-
 import net.rim.device.api.database.Cursor;
 import net.rim.device.api.database.Database;
 import net.rim.device.api.database.DatabaseFactory;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
-import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.component.Status;
 
 import org.json.me.JSONArray;
 import org.json.me.JSONObject;
 
 import pck_SG.CategoriaProductoSG;
-
 import configurations.ConexionController;
 import configurations.DbSql;
 import configurations.Strings;
@@ -77,8 +75,18 @@ public class CategoriaProductoCx {
 					descargarDatos();
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
-					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+					if (Display.getWidth() == 320) {
+						errorMessage = "noInter_320.png";
+					}
+					if (Display.getWidth() == 360) {
+						errorMessage = "noInter_360.png";
+					}
+					if (Display.getWidth() == 480) {
+						errorMessage = "noInter_480.png";
+					}
+					if (Display.getWidth() == 640) {
+						errorMessage = "noInter.png";
+					}
 					//onClose();
 				}
 			//Sí hay datos
@@ -94,8 +102,18 @@ public class CategoriaProductoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}
 		
 		
@@ -150,8 +168,18 @@ public class CategoriaProductoCx {
 							in.close(); 
 							sqliteDB1.close();
 		            	}catch (Exception e){
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo más tarde";
+		            		if (Display.getWidth() == 320) {
+		        				errorMessage = "noData1_320.png";
+		        			}
+		        			if (Display.getWidth() == 360) {
+		        				errorMessage = "noData1_360.png";
+		        			}
+		        			if (Display.getWidth() == 480) {
+		        				errorMessage = "noData1_480.png";
+		        			}
+		        			if (Display.getWidth() == 640) {
+		        				errorMessage = "noData1.png";
+		        			}
 		 	     			//Dialog.alert("error elements habits "+e.getMessage());
 		 	     		}
 		            
@@ -160,8 +188,18 @@ public class CategoriaProductoCx {
 	            	cargarDatos();
 	            	
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+	            	if (Display.getWidth() == 320) {
+	    				errorMessage = "noData1_320.png";
+	    			}
+	    			if (Display.getWidth() == 360) {
+	    				errorMessage = "noData1_360.png";
+	    			}
+	    			if (Display.getWidth() == 480) {
+	    				errorMessage = "noData1_480.png";
+	    			}
+	    			if (Display.getWidth() == 640) {
+	    				errorMessage = "noData1.png";
+	    			}
 	            	
 	            }
 	        }
@@ -169,8 +207,18 @@ public class CategoriaProductoCx {
 	        
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+	        	if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				if(conn != null)
 					try {
@@ -219,9 +267,18 @@ public class CategoriaProductoCx {
 	                       sqliteDB.close();
 	                       errorCode = "0";
 			}catch(Exception e){
-				Dialog.alert(e.getMessage());
-				errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+				if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				categoria.setIdCategoria(IdCategoria);
 				categoria.setCategoria(Categoria); 
@@ -242,8 +299,18 @@ public class CategoriaProductoCx {
 				dt.close(); 
 				sqliteDB1.close();
         	}catch (Exception e){
-        		errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+        		if (Display.getWidth() == 320) {
+    				errorMessage = "noData1_320.png";
+    			}
+    			if (Display.getWidth() == 360) {
+    				errorMessage = "noData1_360.png";
+    			}
+    			if (Display.getWidth() == 480) {
+    				errorMessage = "noData1_480.png";
+    			}
+    			if (Display.getWidth() == 640) {
+    				errorMessage = "noData1.png";
+    			}
      			//Dialog.alert("error elements habits "+e.getMessage());
      		}
 			

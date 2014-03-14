@@ -4,12 +4,15 @@ import mypackage.MenuMain;
 import mypackage.MyScreen;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.FontFamily;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.component.Status;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
@@ -31,8 +34,8 @@ public class Ajustes extends Estilos {
 	Bitmap logoList 		= Bitmap.getBitmapResource("vistaMapa.png");;
 	Bitmap btnLogout		= Bitmap.getBitmapResource("btnLogout.png");
 	Bitmap btnLogout1 		= Bitmap.getBitmapResource("btnLogout1.png");
-	Bitmap btnPuntosMapa	= Bitmap.getBitmapResource("btnPuntosMapa.png");
-	Bitmap btnPuntosMapa1 	= Bitmap.getBitmapResource("btnPuntosMapa1.png");
+	Bitmap btnPuntosMapa	= Bitmap.getBitmapResource("btnLogout.png");
+	Bitmap btnPuntosMapa1 	= Bitmap.getBitmapResource("btnLogout1.png");
 	Bitmap btnChangePw		= Bitmap.getBitmapResource("btnChangePw.png");
 	Bitmap btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1.png");
 	
@@ -42,6 +45,8 @@ public class Ajustes extends Estilos {
 	int ocho = 8;
 	int cuatrocuarenta = 440;
 	int trecientoscuarentaysiete = 305;
+	
+	LoginPx login = new LoginPx();
 	
 	public Ajustes(){
 		
@@ -56,11 +61,8 @@ public class Ajustes extends Estilos {
 			ocho = 3;
 			cuatrocuarenta = 200;
 			trecientoscuarentaysiete = 155;
-			logoList = Bitmap.getBitmapResource("vistaMapa_320.png");
-			btnLogout	= Bitmap.getBitmapResource("btnLogout_320.png");
-			btnLogout1 	= Bitmap.getBitmapResource("btnLogout1_320.png");
-			btnPuntosMapa	= Bitmap.getBitmapResource("btnPuntosMapa_320.png");
-			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnPuntosMapa1_320.png");
+			btnPuntosMapa	= Bitmap.getBitmapResource("btnLogout_320.png");
+			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnLogout1_320.png");
 			btnChangePw	= Bitmap.getBitmapResource("btnChangePw_320.png");
             btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1_320.png");
 		}
@@ -71,15 +73,12 @@ public class Ajustes extends Estilos {
 			tFuente2 = 20;
 			veinticinco = 12;
 			veinte = 10;
-			sesenta = 45;
+			sesenta = 35;
 			ocho = 8;
 			cuatrocuarenta = 210;
 			trecientoscuarentaysiete = 385;
-			logoList = Bitmap.getBitmapResource("vistaMapa.png");
-			btnLogout	= Bitmap.getBitmapResource("btnLogout_320.png");
-			btnLogout1 	= Bitmap.getBitmapResource("btnLogout1_320.png");
-			btnPuntosMapa	= Bitmap.getBitmapResource("btnPuntosMapa_320.png");
-			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnPuntosMapa1_320.png");
+			btnPuntosMapa	= Bitmap.getBitmapResource("btnLogout_320.png");
+			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnLogout1_320.png");
 			btnChangePw	= Bitmap.getBitmapResource("btnChangePw_320.png");
             btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1_320.png");
 		}
@@ -90,28 +89,22 @@ public class Ajustes extends Estilos {
 			tFuente2 = 20;
 			veinticinco = 12;
 			veinte = 10;
-			sesenta = 45;
+			sesenta = 35;
 			ocho = 8;
 			cuatrocuarenta = 350;
 			trecientoscuarentaysiete = 249;
-			logoList = Bitmap.getBitmapResource("vistaMapa.png");
-			btnLogout	= Bitmap.getBitmapResource("btnLogout_320.png");
-			btnLogout1 	= Bitmap.getBitmapResource("btnLogout1_320.png");
-			btnPuntosMapa	= Bitmap.getBitmapResource("btnPuntosMapa_320.png");
-			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnPuntosMapa1_320.png");
-			btnChangePw	= Bitmap.getBitmapResource("btnChangePw_320.png");
-            btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1_320.png");
+			btnPuntosMapa	= Bitmap.getBitmapResource("btnLogout_480.png");
+			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnLogout1_480.png");
+			btnChangePw	= Bitmap.getBitmapResource("btnChangePw_480.png");
+            btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1_480.png");
 		}
 		if (Display.getWidth() == 640) {
 			
 			getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background.png")));
 			tFuente = 35;
 			tFuente2 = 40;
-			logoList = Bitmap.getBitmapResource("vistaMapa.png");
-			btnLogout	= Bitmap.getBitmapResource("btnLogout.png");
-			btnLogout1 	= Bitmap.getBitmapResource("btnLogout1.png");
-			btnPuntosMapa	= Bitmap.getBitmapResource("btnPuntosMapa.png");
-			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnPuntosMapa1.png");
+			btnPuntosMapa	= Bitmap.getBitmapResource("btnLogout.png");
+			btnPuntosMapa1 	= Bitmap.getBitmapResource("btnLogout1.png");
 			btnChangePw	= Bitmap.getBitmapResource("btnChangePw.png");
             btnChangePw1 	= Bitmap.getBitmapResource("btnChangePw1.png");
 		}
@@ -139,23 +132,18 @@ public class Ajustes extends Estilos {
 			
 			HorizontalFieldManager logoutHfm = new HorizontalFieldManager(HorizontalFieldManager.FIELD_RIGHT);			
 			
-            BitmapButtonField btnSearchUser = new BitmapButtonField(btnLogout,btnLogout1,Field.FIELD_RIGHT);
-            btnSearchUser.setChangeListener( new FieldChangeListener( ) {
-    			public void fieldChanged( Field field, int context ) {
-    				int ans = Dialog.ask(Dialog.D_YES_NO,
-    						"¿Realmente deseas cerrar sesión?");
-    				if (ans == Dialog.NO) {
-    					// Do Nothing
-    				} else {
-    					Status.show("Cerrando Sesión...");
-    					new LoginPx();
-        				UiApplication.getUiApplication().pushScreen(new MyScreen());
-    				}
-    				
-    			}
-            });     
-            btnSearchUser.setMargin(ocho, 0, 0, cuatrocuarenta);
-            logoutHfm.add(btnSearchUser);
+			LabelField datoextra = new LabelField("Usuario: "+login.nombre+" "+login.apellido,DrawStyle.ELLIPSIS | LabelField.FIELD_RIGHT | DrawStyle.RIGHT){
+    	    	public void paint(Graphics g)
+				{      
+					g.setColor(0xffffff);
+					super.paint(g);
+				}
+    	    }; 
+    	    datoextra.setFont(fLite);
+    	    datoextra.setPadding(7,0,0,7);
+			
+            
+            logoutHfm.add(datoextra);
             footerLogoHfm.add(logoutHfm);
             
             //logoHfm.add(logoutHfm);
@@ -175,7 +163,15 @@ public class Ajustes extends Estilos {
             BitmapButtonField btnPuntosMapaUser = new BitmapButtonField(btnPuntosMapa,btnPuntosMapa1,Field.FIELD_HCENTER);
             btnPuntosMapaUser.setChangeListener( new FieldChangeListener( ) {
     			public void fieldChanged( Field field, int context ) {
-    				UiApplication.getUiApplication().pushScreen(new CambiarPuntosMap());
+    				int ans = Dialog.ask(Dialog.D_YES_NO,
+    						"¿Realmente deseas cerrar sesión?");
+    				if (ans == Dialog.NO) {
+    					// Do Nothing
+    				} else {
+    					Status.show("Cerrando Sesión...");
+    					login.eliminarDatos();
+        				UiApplication.getUiApplication().pushScreen(new MyScreen());
+    				}
     			}
             });
             btnPuntosMapaUser.setMargin(30,0,0,0);

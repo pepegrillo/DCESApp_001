@@ -15,6 +15,7 @@ import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Status;
 
@@ -105,8 +106,18 @@ public class FavoritoCx {
 					descargarDatos(hashKey);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
-					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+					if (Display.getWidth() == 320) {
+						errorMessage = "noInter_320.png";
+					}
+					if (Display.getWidth() == 360) {
+						errorMessage = "noInter_360.png";
+					}
+					if (Display.getWidth() == 480) {
+						errorMessage = "noInter_480.png";
+					}
+					if (Display.getWidth() == 640) {
+						errorMessage = "noInter.png";
+					}
 					//onClose();
 				}
 			//Sí hay datos
@@ -123,8 +134,18 @@ public class FavoritoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}
 		
 	}
@@ -197,8 +218,18 @@ public class FavoritoCx {
 							sqliteDB1.close();
 		            	}catch (Exception e) {
 							// TODO: handle exception
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo más tarde";
+		            		if (Display.getWidth() == 320) {
+		        				errorMessage = "noData1_320.png";
+		        			}
+		        			if (Display.getWidth() == 360) {
+		        				errorMessage = "noData1_360.png";
+		        			}
+		        			if (Display.getWidth() == 480) {
+		        				errorMessage = "noData1_480.png";
+		        			}
+		        			if (Display.getWidth() == 640) {
+		        				errorMessage = "noData1.png";
+		        			}
 						}
 		            			            
 	            	}
@@ -206,16 +237,36 @@ public class FavoritoCx {
 	            	cargarDatos();
 	            
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+	            	if (Display.getWidth() == 320) {
+	    				errorMessage = "noData1_320.png";
+	    			}
+	    			if (Display.getWidth() == 360) {
+	    				errorMessage = "noData1_360.png";
+	    			}
+	    			if (Display.getWidth() == 480) {
+	    				errorMessage = "noData1_480.png";
+	    			}
+	    			if (Display.getWidth() == 640) {
+	    				errorMessage = "noData1.png";
+	    			}
 	            	
 	            }
 	        }
 	            
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo de nuevo más tarde";
+	        	if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				if(conn != null)
 					try {
@@ -275,9 +326,18 @@ public class FavoritoCx {
             errorCode = "0";
 		}catch (Exception e) {
 			// TODO: handle exception
-			Dialog.alert("cargar datos "+e.getMessage());
-			errorMessage = "No hay datos disponible para la búsqueda realizada, " +
-            		"intentelo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}finally{
 			favorito.setIdProducto(IdProducto);
 			favorito.setProducto(Producto);
@@ -311,8 +371,18 @@ public class FavoritoCx {
 			sqliteDB1.close();
     	}catch (Exception e){
  			//Dialog.alert("error elements habits "+e.getMessage());
-    		errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+    		if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
  		}
 		
 	}
@@ -358,16 +428,40 @@ public void guardarFavoritos(String HashKey, String idProducto, String idEstable
 		   		            }else if(errorcode == 5){
 		   		            	Status.show(Nombre+" ya ha sido guardado en Favoritos.",5000);
 		   		            }else{
-		   		            	Dialog.alert("ERROR CODE Ha ocurrido algo inesperado, inténtelo de nuevo.");
+		   		            	Dialog.alert("Ha ocurrido algo inesperado, inténtelo de nuevo.");
 		   		            }
 	                      
 			}catch(Exception e){
-				Dialog.alert(Strings.CONEXION_UNEXPECTED+" "+e.getMessage());
+				//Dialog.alert(Strings.CONEXION_UNEXPECTED+" "+e.getMessage());
+				if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 			}
     	
     	}else{
     		Status.show(Strings.CONEXION_DESCONECTED);
+    		if (Display.getWidth() == 320) {
+				errorMessage = "noInter_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noInter_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noInter_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noInter.png";
+			}
     	}
 	}
 

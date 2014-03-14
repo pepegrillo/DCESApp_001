@@ -15,6 +15,7 @@ import net.rim.device.api.database.DatabaseFactory;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Status;
 
@@ -77,8 +78,18 @@ public class TemporadaCategoriaProductoCx {
 					descargarDatos();
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
-					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+					if (Display.getWidth() == 320) {
+						errorMessage = "noInter_320.png";
+					}
+					if (Display.getWidth() == 360) {
+						errorMessage = "noInter_360.png";
+					}
+					if (Display.getWidth() == 480) {
+						errorMessage = "noInter_480.png";
+					}
+					if (Display.getWidth() == 640) {
+						errorMessage = "noInter.png";
+					}
 					//onClose();
 				}
 			//Sí hay datos
@@ -94,8 +105,18 @@ public class TemporadaCategoriaProductoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}
 		
 		
@@ -150,8 +171,18 @@ public class TemporadaCategoriaProductoCx {
 							in.close(); 
 							sqliteDB1.close();
 		            	}catch (Exception e){
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo más tarde";
+		            		if (Display.getWidth() == 320) {
+		        				errorMessage = "noData1_320.png";
+		        			}
+		        			if (Display.getWidth() == 360) {
+		        				errorMessage = "noData1_360.png";
+		        			}
+		        			if (Display.getWidth() == 480) {
+		        				errorMessage = "noData1_480.png";
+		        			}
+		        			if (Display.getWidth() == 640) {
+		        				errorMessage = "noData1.png";
+		        			}
 		 	     			//Dialog.alert("error elements habits "+e.getMessage());
 		 	     		}
 		            
@@ -160,8 +191,18 @@ public class TemporadaCategoriaProductoCx {
 	            	cargarDatos();
 	            	
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo más tarde";
+	            	if (Display.getWidth() == 320) {
+	    				errorMessage = "noData1_320.png";
+	    			}
+	    			if (Display.getWidth() == 360) {
+	    				errorMessage = "noData1_360.png";
+	    			}
+	    			if (Display.getWidth() == 480) {
+	    				errorMessage = "noData1_480.png";
+	    			}
+	    			if (Display.getWidth() == 640) {
+	    				errorMessage = "noData1.png";
+	    			}
 	            	
 	            }
 	        }
@@ -169,8 +210,18 @@ public class TemporadaCategoriaProductoCx {
 	        
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+	        	if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				if(conn != null)
 					try {
@@ -219,9 +270,18 @@ public class TemporadaCategoriaProductoCx {
 	                       sqliteDB.close();
 	                       errorCode = "0";
 			}catch(Exception e){
-				Dialog.alert(e.getMessage());
-				errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+				if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				categoria.setIdCategoria(IdCategoria);
 				categoria.setCategoria(Categoria); 
@@ -242,8 +302,18 @@ public class TemporadaCategoriaProductoCx {
 				dt.close(); 
 				sqliteDB1.close();
         	}catch (Exception e){
-        		errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo más tarde";
+        		if (Display.getWidth() == 320) {
+    				errorMessage = "noData1_320.png";
+    			}
+    			if (Display.getWidth() == 360) {
+    				errorMessage = "noData1_360.png";
+    			}
+    			if (Display.getWidth() == 480) {
+    				errorMessage = "noData1_480.png";
+    			}
+    			if (Display.getWidth() == 640) {
+    				errorMessage = "noData1.png";
+    			}
      			//Dialog.alert("error elements habits "+e.getMessage());
      		}
 			

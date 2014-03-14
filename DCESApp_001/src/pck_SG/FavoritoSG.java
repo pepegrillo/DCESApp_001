@@ -17,6 +17,7 @@ public class FavoritoSG {
 	
 	String errorCode 	= new String();
 	String errorMessage = new String();
+	String categoriasValidate = new String();
 	
 	String hashKey = new String();
 	
@@ -24,7 +25,7 @@ public class FavoritoSG {
 		
 	}
 	
-	public FavoritoSG(Vector IdProducto, Vector Producto, Vector Marca, Vector Presentacion, Vector Precio, Vector PrecioPromo, Vector Nombre, Vector Latitud, Vector Longitud, Vector Fecha, String errorCode, String errorMessage, String hashkey){
+	public FavoritoSG(Vector IdProducto, Vector Producto, Vector Marca, Vector Presentacion, Vector Precio, Vector PrecioPromo, Vector Nombre, Vector Latitud, Vector Longitud, Vector Fecha, String errorCode, String errorMessage, String hashkey, String categoriasValidate){
 		
 		super();
 		this.IdProducto   = IdProducto;
@@ -42,6 +43,8 @@ public class FavoritoSG {
 		this.errorMessage = errorMessage;
 		
 		this.hashKey	  = hashkey;
+		
+		this.categoriasValidate = categoriasValidate;
 		
 	}
 	
@@ -124,6 +127,14 @@ public class FavoritoSG {
 	}
 	public void sethashKey(String hashKey) {
 		this.hashKey = hashKey;
+	}
+
+	public String getCategoriasValidate() {
+		return categoriasValidate;
+	}
+
+	public void setCategoriasValidate(String categoriasValidate) {
+		this.categoriasValidate = categoriasValidate;
 	}
 
 }

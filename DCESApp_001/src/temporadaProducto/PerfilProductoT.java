@@ -20,6 +20,7 @@ import configurations.DbSql;
 import configurations.Metodo;
 import configurations.Strings;
 import estilos.Estilos;
+import estilos.Estilos.GRichTextField;
 
 public class PerfilProductoT extends Estilos {
 	
@@ -152,13 +153,9 @@ public class PerfilProductoT extends Estilos {
 			detalleCrt3.setFont(fDetalles);
 			detalleCrt3.setMargin(20, 0, 5, 20);
 			
-			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"+precio, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
+			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"+precio+"        "+"Promedio $"+preciopromo, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			detalleGreenCrt.setFont(fDetalles);
 			detalleGreenCrt.setMargin(20, 0, 5, 20);
-			
-			GRichTextField detalleGreenCrt2 = new GRichTextField("Promedio $"+preciopromo,  RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
-			detalleGreenCrt2.setFont(fDetalles);
-			detalleGreenCrt2.setMargin(20, 0, 5, 20);
 			
 			allContentDetalle.add(tituloCrt);
 			allContentDetalle.add(detalleCrt);
@@ -166,7 +163,6 @@ public class PerfilProductoT extends Estilos {
 			allContentDetalle.add(detalleCrt2);
 			allContentDetalle.add(detalleCrt3);
 			allContentDetalle.add(detalleGreenCrt);
-			allContentDetalle.add(detalleGreenCrt2);
 	        
 
             BitmapButtonField btnAceptarRegUser = new BitmapButtonField(btnMapa,btnMapa1,Field.FIELD_HCENTER);
@@ -198,7 +194,7 @@ public class PerfilProductoT extends Estilos {
         public void run()
         {
         	
-        	favoritos.guardarFavoritos(HashKey, idProducto, idEstablecimiento, Nombre);
+        	favoritos.guardarFavoritos(idProducto, idEstablecimiento, Nombre);
             
         }
     };

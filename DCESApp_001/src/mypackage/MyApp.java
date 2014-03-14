@@ -128,6 +128,21 @@ public class MyApp extends UiApplication
 				cftu.execute();
 				cftu.close();
 				
+				Statement clc = sqliteDB.createStatement(statement.ListaCompras());				
+				clc.prepare();
+				clc.execute();
+				clc.close();
+				
+				Statement crc = sqliteDB.createStatement(statement.RutaCompras());				
+				crc.prepare();
+				crc.execute();
+				crc.close();
+				
+				Statement cpc = sqliteDB.createStatement(statement.ProductoCompras());				
+				cpc.prepare();
+				cpc.execute();
+				cpc.close();
+				
 			sqliteDB.close();
 	     	
     	}catch (Exception e) {

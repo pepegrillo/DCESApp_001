@@ -14,7 +14,7 @@ public class CategoriaProductoSG {
 		
 	}
 	
-	public CategoriaProductoSG(Vector idCategoria, Vector categoria){
+	public CategoriaProductoSG(Vector idCategoria, Vector categoria, String errorCode, String errorMessage){
 		
 		super();
 		this.idCategoria = idCategoria;

@@ -14,6 +14,9 @@ import net.rim.device.api.ui.component.RichTextField;
 import net.rim.device.api.ui.component.Status;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
+import net.rim.device.api.ui.image.Image;
+import net.rim.device.api.ui.image.ImageFactory;
+import net.rim.device.api.util.StringProvider;
 import observatorioPrecio.VerMapa;
 import pck_WS.FavoritoPx;
 
@@ -21,6 +24,7 @@ import com.samples.toolkit.ui.component.BitmapButtonField;
 
 import configurations.Strings;
 import estilos.Estilos;
+import estilos.Estilos.GRichTextField;
 
 public class PerfilProductoF extends Estilos {
 
@@ -169,18 +173,11 @@ public class PerfilProductoF extends Estilos {
 					| RichTextField.TEXT_ALIGN_LEFT);
 			detalleCrt3.setFont(fDetalles);
 			detalleCrt3.setMargin(20, 0, 5, 20);
-
-			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"
-					+ precioproducto, RichTextField.FIELD_LEFT
-					| RichTextField.TEXT_ALIGN_LEFT);
+			
+			GRichTextField detalleGreenCrt = new GRichTextField("Normal $"+precioproducto+"        "+"Promedio $"+preciopromocion, RichTextField.FIELD_LEFT | RichTextField.TEXT_ALIGN_LEFT);
 			detalleGreenCrt.setFont(fDetalles);
 			detalleGreenCrt.setMargin(20, 0, 5, 20);
 
-			GRichTextField detalleGreenCrt2 = new GRichTextField("Promedio $"
-					+ preciopromocion, RichTextField.FIELD_LEFT
-					| RichTextField.TEXT_ALIGN_LEFT);
-			detalleGreenCrt2.setFont(fDetalles);
-			detalleGreenCrt2.setMargin(20, 0, 5, 20);
 
 			allContentDetalle.add(tituloCrt);
 			allContentDetalle.add(detalleCrt);
@@ -188,7 +185,6 @@ public class PerfilProductoF extends Estilos {
 			allContentDetalle.add(detalleCrt2);
 			allContentDetalle.add(detalleCrt3);
 			allContentDetalle.add(detalleGreenCrt);
-			allContentDetalle.add(detalleGreenCrt2);
 
 			BitmapButtonField btnAceptarRegUser = new BitmapButtonField(
 					btnMapa, btnMapa1, Field.FIELD_HCENTER);
@@ -212,11 +208,33 @@ public class PerfilProductoF extends Estilos {
 		}
 
 		// Menu Item
-		addMenuItem(itemFavorito);
+		MenuItem myItem = new MenuItem(new StringProvider("Eliminar de Favoritos"), 110, 0){
+		    public void run(){
+		    	int ans = Dialog.ask(Dialog.D_YES_NO,
+						"¿Realmente deseas eliminarlo de favoritos?");
+				if (ans == Dialog.NO) {
+					// Do Nothing
+				} else {
+					Status.show("Eliminando...");
+					favoritos.eliminarFavoritos(hashKey,idProducto,"2");
+					Status.show(favoritos.errorMessage);
+					UiApplication.getUiApplication().pushScreen(new MenuMain(1));
+				}
+		        
+		    }
+		};
+		Image iconoHabito = ImageFactory.createImage(Bitmap.getBitmapResource("imgMewe2.png"));
+		myItem.setIcon(iconoHabito);
+		
+		addMenuItem(myItem);
+		
 
 	}
-
-	private MenuItem itemFavorito = new MenuItem("Eliminar de Favoritos", 110, 10) {
+	
+	
+	
+	
+	/*private MenuItem itemFavorito = new MenuItem("Eliminar de Favoritos", 110, 10) {
 		public void run() {
 			int ans = Dialog.ask(Dialog.D_YES_NO,
 					"¿Realmente deseas eliminarlo de favoritos?");
@@ -230,6 +248,6 @@ public class PerfilProductoF extends Estilos {
 			}
 
 		}
-	};
+	};*/
 
 }

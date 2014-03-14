@@ -25,6 +25,7 @@ import com.samples.toolkit.ui.component.ListStyleButtonField;
 import configurations.Strings;
 import estilos.Estilos;
 import estilos.Estilos.ORichTextField;
+import estilos.Estilos.VerticalField;
 
 public class ProductoFiltro extends Estilos implements FieldChangeListener {
 	
@@ -161,11 +162,9 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 			
 			add(logoHfm);
 			
-			
+			if (productofiltro.errorCode.equals("0")){
 			//Lista Producto
 			VerticalField allContentListaProducto = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (productofiltro.errorCode.equals("0")){
 			
 				for (int i = 0; i < productofiltro.IdProducto.size(); i++){
 	
@@ -200,14 +199,15 @@ public class ProductoFiltro extends Estilos implements FieldChangeListener {
 		    	    contentListProducto.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaProducto.add(contentListProducto);
 				}
+				add(allContentListaProducto);
 			}else{
-				ORichTextField errorM = new ORichTextField(productofiltro.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				errorM.setMargin(20, 0, 5, 20);
-				allContentListaProducto.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(productofiltro.errorMessage)));
+				
+				add(errorHfm);
 			}
 	        
-	        add(allContentListaProducto);
+	        
 			
 			
 		}catch (Exception e) {

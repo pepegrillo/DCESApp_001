@@ -28,6 +28,7 @@ import com.samples.toolkit.ui.component.ListStyleButtonField;
 import configurations.Strings;
 import estilos.Estilos;
 import estilos.Estilos.ORichTextField;
+import estilos.Estilos.VerticalField;
 
 public class FavoritoProducto extends Estilos implements FieldChangeListener {
 	
@@ -60,11 +61,11 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 	
 	//personalizacion
 	int veinticinco = 25;
-	int sesenta = 60;
+	int sesenta = 20;
 	int ocho = 8;
 	int cinco = 5;
 	int noventa = 90;
-	int trecientos = 307;
+	int trecientos = 347;
 	int seisientos = 600;
 	int cientodiez = 110;
 	int quince = 15;
@@ -78,20 +79,19 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 	public FavoritoProducto(){
 		
 		
-		
 		if (Display.getWidth() == 320) {
 
             getMainManager().setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource("background_320.png")));
 			tFuente = 17;
 			tFuente2 = 20;
 			veinticinco = 10;
-			sesenta = 35;
+			sesenta = 10;
 			arrow  = Bitmap.getBitmapResource( "arrow_320.png" );
 			ocho = 3;
 			bgProducto = Bitmap.getBitmapResource("bgProduct_320.png");
 			cinco = 0;
 			noventa = 45;
-			trecientos = 150;
+			trecientos = 171;
 			seisientos = 290;
 			cientodiez = 55;
 			quince = 7;
@@ -108,13 +108,13 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			tFuente = 20;
 			tFuente2 = 23;
 			veinticinco = 10;
-			sesenta = 35;
+			sesenta = 10;
 			arrow  = Bitmap.getBitmapResource( "arrow_320.png" );
 			ocho = 3;
 			bgProducto = Bitmap.getBitmapResource("bgProduct_320.png");
 			cinco = 0;
 			noventa = 45;
-			trecientos = 379;
+			trecientos = 403;
 			seisientos = 330;
 			cientodiez = 55;
 			quince = 7;
@@ -131,13 +131,13 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			tFuente = 20;
 			tFuente2 = 23;
 			veinticinco = 10;
-			sesenta = 35;
+			sesenta = 10;
 			arrow  = Bitmap.getBitmapResource( "arrow_320.png" );
 			ocho = 3;
 			bgProducto = Bitmap.getBitmapResource("bgProduct_320.png");
 			cinco = 0;
 			noventa = 45;
-			trecientos = 260;
+			trecientos = 284;
 			seisientos = 450;
 			cientodiez = 55;
 			quince = 7;
@@ -182,7 +182,7 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 			HorizontalField footerLogoHfm = new HorizontalField(Display.getWidth(),sesenta,HorizontalFieldManager.FIELD_HCENTER | VerticalFieldManager.FIELD_HCENTER);
 			footerLogoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0x9cbe4f, 0x7a9b3c, 0x7a9b3c, 0x9cbe4f));
 			
-			txtSearch = new BasicEditField("Buscar: ", "", 200, BasicEditField.JUMP_FOCUS_AT_END){
+			/*txtSearch = new BasicEditField("Buscar: ", "", 200, BasicEditField.JUMP_FOCUS_AT_END){
 	            public int getPreferredWidth(){return Display.getWidth()-txtSearchWidth;}
 	            public int getPreferredHeight(){return alturatxt;}
 	            public void layout( int maxWidth, int maxHeight )
@@ -214,18 +214,16 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
             });     
             btnSearchUser.setMargin(ocho, 0, 0, 5);
             
-            footerLogoHfm.add(btnSearchUser);
+            footerLogoHfm.add(btnSearchUser);*/
             
 			
 			logoHfm.add(footerLogoHfm);
 			
 			add(logoHfm);
 			
-			
+			if (favoritos.errorCode.equals("0")) {
 			//Lista Producto
 			VerticalField allContentListaProducto = new VerticalField(Display.getWidth(),trecientos,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (favoritos.errorCode.equals("0")) {
 			
 				for (int i = 0; i < favoritos.IdProducto.size(); i++){
 										
@@ -259,13 +257,14 @@ public class FavoritoProducto extends Estilos implements FieldChangeListener {
 		    	    contentListProducto.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaProducto.add(contentListProducto);
 				}
+				add(allContentListaProducto);
 			}else{
-				ORichTextField errorM = new ORichTextField(favoritos.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				errorM.setMargin(20, 0, 5, 20);
-				allContentListaProducto.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientos,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(favoritos.errorMessage)));
+				
+				add(errorHfm);
 			}
-	        add(allContentListaProducto);
+	        
 			
 			
 		}catch (Exception e) {

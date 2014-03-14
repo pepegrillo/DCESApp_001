@@ -54,7 +54,7 @@ public class Strings {
 	//Form Validation
 	public static final String VT_GENERAL		= "¡Todos los campos son obligatorios!";
 	public static final String VT_CAMPOTRES		= "¡Los campos nombre y/o apellido son muy cortos!";
-	public static final String VT_CAMPODIEZ		= "¡El campo correo es muy corto o inválido!";
+	public static final String VT_CAMPODIEZ		= "¡El correo electrónico es muy corto o inválido!";
 	public static final String VT_CAMPOPW		= "¡El nivel de seguridad de tu contraseña es muy bajo!";
 	public static final String VT_CAMPORPW		= "¡La contraseña no coincide!";
 	

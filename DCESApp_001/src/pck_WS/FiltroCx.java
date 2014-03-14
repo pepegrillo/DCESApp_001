@@ -14,7 +14,6 @@ import net.rim.device.api.database.DatabaseFactory;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
-import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Status;
 
 import org.json.me.JSONArray;
@@ -76,8 +75,7 @@ public class FiltroCx {
 					descargarDatos(idCategoria);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
-					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+					errorMessage = "noInter.png";
 					//onClose();
 				}
 			//Sí hay datos
@@ -94,8 +92,7 @@ public class FiltroCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			errorMessage = "noData1.png";
 		}
 		
 	}
@@ -151,8 +148,7 @@ public class FiltroCx {
 							sqliteDB1.close();
 		            	}catch (Exception e) {
 							// TODO: handle exception
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo de nuevo más tarde";
+		            		errorMessage = "noData1.png";
 						}
 		            	
 		            
@@ -161,15 +157,14 @@ public class FiltroCx {
 	            	cargarDatos(idcategoria);
 	            	
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+	            	errorMessage = "noData1.png";
 	            	
 	            }
 	        }
 	            
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	Dialog.alert("descargar datos "+e.getMessage());
+	        	errorMessage = "noData1.png";
 			}finally{
 				if(conn != null)
 					try {
@@ -219,9 +214,7 @@ public class FiltroCx {
             errorCode = "0";
 		}catch (Exception e) {
 			// TODO: handle exception
-			Dialog.alert("cargar datos "+e.getMessage());
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			errorMessage = "noData1.png";
 		}finally{
 			filtro.setIdMunicipio(IdMunicipio);
 			filtro.setMunicipio(Municipio);
@@ -244,6 +237,7 @@ public class FiltroCx {
 			sqliteDB1.close();
     	}catch (Exception e){
  			//Dialog.alert("error elements habits "+e.getMessage());
+    		errorMessage = "noData1.png";
  		}
 		
 	}

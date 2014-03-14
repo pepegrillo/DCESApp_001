@@ -1,6 +1,6 @@
 package mypackage;
 
-import listaProductos.ListaProductos;
+import listaCompras.ListaCompras;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Field;
@@ -10,12 +10,14 @@ import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import observatorioPrecio.CategoriaProducto;
+import pck_WS.CategoriaProductoCx;
 import pck_WS.FavoritoPx;
 import temporadaProducto.CategoriaProductoT;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 
 import configurations.Ajustes;
+import configurations.Strings;
 import estilos.Estilos;
 import favoritos.FavoritoProducto;
 
@@ -129,6 +131,13 @@ public class MenuMain extends Estilos {
 	            btnObservatorioPrecioUser.setChangeListener( new FieldChangeListener( ) {
 	    			public void fieldChanged( Field field, int context ) {
 	    				UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+	    				//favoritos.verificarDatosBD();
+	    				/*if (favoritos.categoriasValidate.equals("1")) {
+	    					UiApplication.getUiApplication().pushScreen(new CategoriaProducto());
+	    				} else {
+	    					Dialog.alert(Strings.CONEXION_DESCONECTED); 
+	    				}*/
+	    				
 	    			}
 	            });            
 	            contentMenuMain.add(btnObservatorioPrecioUser);
@@ -137,7 +146,7 @@ public class MenuMain extends Estilos {
 	            BitmapButtonField btnListaCompraUser = new BitmapButtonField(btnListaCompra,btnListaCompra1);
 	            btnListaCompraUser.setChangeListener( new FieldChangeListener( ) {
 	    			public void fieldChanged( Field field, int context ) {
-	    				UiApplication.getUiApplication().pushScreen(new ListaProductos());
+	    				UiApplication.getUiApplication().pushScreen(new ListaCompras());
 	    			}
 	            });            
 	            contentMenuMain.add(btnListaCompraUser);

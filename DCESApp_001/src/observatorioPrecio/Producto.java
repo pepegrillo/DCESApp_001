@@ -2,9 +2,6 @@ package observatorioPrecio;
 
 import java.util.Vector;
 
-import pck_WS.CategoriaProductoCx;
-import pck_WS.ProductoCx;
-
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.DrawStyle;
@@ -18,17 +15,18 @@ import net.rim.device.api.ui.XYEdges;
 import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.component.TextField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
+import pck_WS.ProductoCx;
 
 import com.samples.toolkit.ui.component.BitmapButtonField;
 import com.samples.toolkit.ui.component.ListStyleButtonField;
 
 import configurations.Strings;
 import estilos.Estilos;
-import estilos.Estilos.ORichTextField;
 
 public class Producto extends Estilos implements FieldChangeListener {
 	
@@ -92,6 +90,7 @@ public class Producto extends Estilos implements FieldChangeListener {
 			txtSearchWidth = 73;
 			btnSearch	= Bitmap.getBitmapResource("btnSearch_320.png");
 			btnSearch1 	= Bitmap.getBitmapResource("btnSearch1_320.png");
+						
 		}
 		if (Display.getWidth() == 360) {
 
@@ -163,7 +162,7 @@ public class Producto extends Estilos implements FieldChangeListener {
 			logoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0xe68241, 0xe68241,0xd16f2f, 0xd16f2f));
 			logoHfm.setMargin(0, 0, 0, 0);
 
-			ColorRichText emailCrt = new ColorRichText(Strings.PRODUCTO+idcategoria,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
+			ColorRichText emailCrt = new ColorRichText(Strings.PRODUCTO,0xffffff, RichTextField.FIELD_HCENTER | RichTextField.TEXT_ALIGN_HCENTER);
 			emailCrt.setFont(fTitle);
 			emailCrt.setMargin(veinticinco, 0, veinticinco, 0);
 
@@ -172,7 +171,7 @@ public class Producto extends Estilos implements FieldChangeListener {
 			HorizontalField footerLogoHfm = new HorizontalField(Display.getWidth(),sesenta,HorizontalFieldManager.FIELD_HCENTER | VerticalFieldManager.FIELD_HCENTER);
 			footerLogoHfm.setBackground(BackgroundFactory.createLinearGradientBackground(0x9cbe4f, 0x7a9b3c, 0x7a9b3c, 0x9cbe4f));
 			
-			txtSearch = new BasicEditField("Buscar: ", "", 200, BasicEditField.JUMP_FOCUS_AT_END){
+			txtSearch = new BasicEditField("Buscar: ", "", 30, BasicEditField.JUMP_FOCUS_AT_END | TextField.NO_NEWLINE){
 	            public int getPreferredWidth(){return Display.getWidth()-txtSearchWidth;}
 	            public int getPreferredHeight(){return alturatxt;}
 	            public void layout( int maxWidth, int maxHeight )
@@ -212,12 +211,10 @@ public class Producto extends Estilos implements FieldChangeListener {
 			
 			add(logoHfm);
 			
-			
+			if (producto.errorCode.equals("0")){
 			//Lista Producto
 			VerticalField allContentListaProducto = new VerticalField(Display.getWidth(),trecientos,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (producto.errorCode.equals("0")){
-			
+						
 				for (int i = 0; i < producto.IdProducto.size(); i++){
 	
 					
@@ -251,14 +248,15 @@ public class Producto extends Estilos implements FieldChangeListener {
 		    	    contentListProducto.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaProducto.add(contentListProducto);
 				}
+				add(allContentListaProducto);
 			}else{
-				ORichTextField errorM = new ORichTextField(producto.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				//errorM.setMargin(20, 0, 5, 20);
-				allContentListaProducto.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientos,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(producto.errorMessage)));
+				
+				add(errorHfm);
 			}
 	        
-	        add(allContentListaProducto);
+	        
 			
 			
 		}catch (Exception e) {

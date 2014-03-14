@@ -19,6 +19,7 @@ import net.rim.device.api.ui.XYEdges;
 import net.rim.device.api.ui.component.BitmapField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.RichTextField;
+import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 import net.rim.device.api.ui.decor.BackgroundFactory;
 import net.rim.device.api.ui.decor.BorderFactory;
@@ -31,6 +32,7 @@ import configurations.DbSql;
 import configurations.Strings;
 import estilos.Estilos;
 import estilos.Estilos.ORichTextField;
+import estilos.Estilos.VerticalField;
 
 public class CategoriaProductoT extends Estilos implements FieldChangeListener {
 	
@@ -171,11 +173,9 @@ public class CategoriaProductoT extends Estilos implements FieldChangeListener {
 			//descargarDatos();
 			
 			
-			
+			if (categoria.errorCode.equals("0")){
 			//Lista Categoria
 			VerticalField allContentListaCategoria = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalField.FIELD_HCENTER | VerticalField.VERTICAL_SCROLL | VerticalField.VERTICAL_SCROLLBAR);
-			
-			if (categoria.errorCode.equals("0")){
 			
 				for (int i = 0; i < categoria.IdCategoria.size(); i++){
 	
@@ -224,17 +224,17 @@ public class CategoriaProductoT extends Estilos implements FieldChangeListener {
 		    	    contentListCategoria.add(((Field) vLista.elementAt(i)));
 		    	    allContentListaCategoria.add(contentListCategoria);
 				}
-				
+				add(allContentListaCategoria);
 			}else{
-				ORichTextField errorM = new ORichTextField(categoria.errorMessage, RichTextField.FIELD_HCENTER | RichTextField.FIELD_VCENTER | RichTextField.TEXT_ALIGN_LEFT);
-				errorM.setFont(fTitle);
-				//errorM.setMargin(20, 0, 5, 20);
-				allContentListaCategoria.add(errorM);
+				VerticalField errorHfm = new VerticalField(Display.getWidth(),trecientoscuarentaysiete,HorizontalFieldManager.FIELD_HCENTER | DrawStyle.HCENTER | VerticalFieldManager.FIELD_HCENTER);
+				errorHfm.setBackground(BackgroundFactory.createBitmapBackground(Bitmap.getBitmapResource(categoria.errorMessage)));
+				
+				add(errorHfm);
 			}
 			//Descargar datos despues de consumidos
 			//descargarDatos();
 	        
-	        add(allContentListaCategoria);
+	        
 			
 			
 		}catch (Exception e) {

@@ -15,6 +15,7 @@ import net.rim.device.api.database.DatabaseIOException;
 import net.rim.device.api.database.Row;
 import net.rim.device.api.database.Statement;
 import net.rim.device.api.io.URI;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Status;
 
@@ -147,8 +148,18 @@ public class ProductoCx {
 					descargarDatos(idPorCategoria);
 				}else{
 					Status.show(Strings.CONEXION_DESCONECTED);
-					errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+					if (Display.getWidth() == 320) {
+						errorMessage = "noInter_320.png";
+					}
+					if (Display.getWidth() == 360) {
+						errorMessage = "noInter_360.png";
+					}
+					if (Display.getWidth() == 480) {
+						errorMessage = "noInter_480.png";
+					}
+					if (Display.getWidth() == 640) {
+						errorMessage = "noInter.png";
+					}
 					//onClose();
 				}
 			//Sí hay datos
@@ -165,8 +176,19 @@ public class ProductoCx {
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-        		"intentelo de nuevo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
+			
 		}
 		
 	}
@@ -221,8 +243,18 @@ public class ProductoCx {
 							in.close(); 
 							sqliteDB1.close();
 		            	}catch (Exception e){
-		            		errorMessage = "En este momento no se pueden \n mostrar datos " +
-				            		"intentelo de nuevo más tarde";
+		            		if (Display.getWidth() == 320) {
+		        				errorMessage = "noData1_320.png";
+		        			}
+		        			if (Display.getWidth() == 360) {
+		        				errorMessage = "noData1_360.png";
+		        			}
+		        			if (Display.getWidth() == 480) {
+		        				errorMessage = "noData1_480.png";
+		        			}
+		        			if (Display.getWidth() == 640) {
+		        				errorMessage = "noData1.png";
+		        			}
 		 	     		}
 		            
 	            	}
@@ -230,8 +262,18 @@ public class ProductoCx {
 	            	cargarDatos(idporcategoria);
             	
 	            }else if (errorCode.equals("1")){
-		            errorMessage = "En este momento no se pueden \n mostrar datos " +
-		            		"intentelo de nuevo más tarde";
+	            	if (Display.getWidth() == 320) {
+	    				errorMessage = "noData1_320.png";
+	    			}
+	    			if (Display.getWidth() == 360) {
+	    				errorMessage = "noData1_360.png";
+	    			}
+	    			if (Display.getWidth() == 480) {
+	    				errorMessage = "noData1_480.png";
+	    			}
+	    			if (Display.getWidth() == 640) {
+	    				errorMessage = "noData1.png";
+	    			}
 	            	
 	            }
 	        }
@@ -240,8 +282,18 @@ public class ProductoCx {
 	        
 	        }catch (Exception e) {
 				// TODO: handle exception
-	        	errorMessage = "En este momento no se pueden \n mostrar datos " +
-	            		"intentelo de nuevo más tarde";
+	        	if (Display.getWidth() == 320) {
+					errorMessage = "noData1_320.png";
+				}
+				if (Display.getWidth() == 360) {
+					errorMessage = "noData1_360.png";
+				}
+				if (Display.getWidth() == 480) {
+					errorMessage = "noData1_480.png";
+				}
+				if (Display.getWidth() == 640) {
+					errorMessage = "noData1.png";
+				}
 			}finally{
 				if(conn != null)
 					try {
@@ -293,8 +345,18 @@ public class ProductoCx {
                        sqliteDB.close();
                        errorCode = "0";
 		}catch(Exception e){
-			errorMessage = "En este momento no se pueden \n mostrar datos " +
-            		"intentelo de nuevo más tarde";
+			if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
 		}finally{
 			producto.setIdProducto(IdProducto);
 			producto.setNombre(Nombre);
@@ -318,6 +380,18 @@ public class ProductoCx {
 			sqliteDB1.close();
     	}catch (Exception e){
  			//Dialog.alert("error elements habits "+e.getMessage());
+    		if (Display.getWidth() == 320) {
+				errorMessage = "noData1_320.png";
+			}
+			if (Display.getWidth() == 360) {
+				errorMessage = "noData1_360.png";
+			}
+			if (Display.getWidth() == 480) {
+				errorMessage = "noData1_480.png";
+			}
+			if (Display.getWidth() == 640) {
+				errorMessage = "noData1.png";
+			}
  		}
 		
 	}
